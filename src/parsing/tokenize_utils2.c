@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:11:08 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 01:39:10 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:27:27 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ int	count_args(t_token *tokens)
 	int	count;
 
 	count = 0;
-	while (tokens)
+	
+	while (tokens && !is_operator(tokens->value))
 	{
-		if (tokens->type == WORD)
+		if (tokens->type == COMMAND || tokens->type == ARGUMENT)
 		{
 			count++;
 		}

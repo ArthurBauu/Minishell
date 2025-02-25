@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 01:28:22 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:32:42 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_ast	*parse_command(t_token **tokens)
 			|| (*tokens)->type == ARGUMENT))
 	{
 		args[i++] = ft_strdup((*tokens)->value);
+		/* proteger args */
 		*tokens = (*tokens)->next;
 	}
 	args[i] = NULL;
@@ -49,7 +50,7 @@ t_ast	*parse_pipe(t_token **tokens, t_ast *left)
 		return (NULL);
 	}
 	*tokens = (*tokens)->next;
-	right = parse_word(tokens, NULL);
+	right = parse_command(tokens);
 	if (!right)
 	{
 		ft_putstr_fd("minishell: syntax error after '|'\n", 2);
@@ -70,8 +71,7 @@ t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 	else
 		return (NULL);
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || ((*tokens)->type != COMMAND
-			&& (*tokens)->type != ARGUMENT))
+	if (!(*tokens) || ((*tokens)->type != COMMAND))
 	{
 		ft_putstr_fd("minishell: syntax error after logical operator\n", 2);
 		return (NULL);

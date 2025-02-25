@@ -55,14 +55,13 @@ INCDIR = include
 SRC = main.c\
 		parsing/node_init.c\
 		parsing/tokenize.c\
+		parsing/tokenize2.c\
 		parsing/tokenize_utils.c\
 		parsing/tokenize_utils2.c\
 		parsing/tokenize_utils3.c\
 		parsing/for_test.c\
-		parsing/tokenize2.c\
 		parsing/parse.c\
 		parsing/parse_tokens.c\
-		parsing/parsing.c\
 		parsing/commands.c
 
 OBJ = $(SRC:.c=.o)

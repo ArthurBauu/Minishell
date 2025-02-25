@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:23 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 01:34:08 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:44:03 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,20 @@ void	print_tokens(t_token *tokens)
 		printf("Token: %-10s | Type: %d\n", tokens->value, tokens->type);
 		tokens = tokens->next;
 	}
+}
+
+int	is_operator(char *word)
+{
+	int	i;
+
+	i = 0;
+	while (valid_operator[i] != NULL)
+	{
+		if (strcmp(word, valid_operator[i]) == 0)
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }

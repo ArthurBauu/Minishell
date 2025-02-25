@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:32:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 01:39:25 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:29:52 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_token	*tokenize(char *input)
 	int i = 0;
 
 	if (!input[i])
-		ft_putstr_fd("minishell: empty command\n", 2);
+		ft_putstr_fd("minishell: no command found\n", 2);
 	while (input[i])
 	{
 		if (input[i] == ' ')

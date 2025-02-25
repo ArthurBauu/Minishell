@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 01:38:33 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:52:36 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,26 @@ static char	**allocate_filename(t_token *token)
 
 /* FONCTION TROP LONGUE IL FAUT QUE JE LA RACOURCISSE */
 
-static t_ast	*parse_redir(t_token **tokens, t_ast *cmd)
+static t_ast	*parse_redir(t_token **tokens, t_ast *node)
 {
 	t_ast_type	type;
-	t_ast		*file;
+	t_ast		*right;
 	char		**filename;
 
 	while (*tokens && is_redirection((*tokens), 0))
 	{
 		if ((*tokens)->next && is_redirection((*tokens)->next, 1))
-		{
-			printf("minishell: syntax error near unexpected token '%s'\n",
-				(*tokens)->next->value);
-			return (NULL);
-		}
+			return (NULL); /* utiliser return pour les mains qui test plein de de chose */
+			// exit(1); /* Sinon utiliser exit sera plus simple je pense (permet d'eviter les doubles msg d'erreur)*/
 		type = get_redir_type(*tokens);
 		*tokens = (*tokens)->next;
-		if (!(*tokens) || ((*tokens)->type != COMMAND
-				&& (*tokens)->type != ARGUMENT))
-		{
-			printf("minishell: syntax error: missing filename after '%s'\n",
-				get_ast_type_str(type));
+		if (!(*tokens) || ((*tokens)->type != ARGUMENT))
 			return (NULL);
-		}
 		filename = allocate_filename(*tokens);
 		if (!filename)
 			return (*tokens = (*tokens)->next, NULL);
-		file = create_command_node(filename);
-		if (!file)
+		right = create_command_node(filename);
+		if (!right)
 		{
 			free(filename[0]);
 			free(filename);
@@ -66,12 +58,14 @@ static t_ast	*parse_redir(t_token **tokens, t_ast *cmd)
 			return (NULL);
 		}
 		*tokens = (*tokens)->next;
-		if (!cmd)
-			cmd = create_operator_node(type, file, NULL);
+		if (!node)
+			node = create_operator_node(type, right, NULL);
 		else
-			cmd = create_operator_node(type, cmd, file);
+			node = create_operator_node(type, node, right);
+		if (*tokens && ((*tokens)->type == ARGUMENT || (*tokens)->type == COMMAND))
+			node = parse_word(tokens, node);
 	}
-	return (cmd);
+	return (node);
 }
 
 t_ast	*parse_word(t_token **tokens, t_ast *left)
@@ -80,20 +74,16 @@ t_ast	*parse_word(t_token **tokens, t_ast *left)
 
 	if (!tokens || !(*tokens))
 		return (NULL);
+	node = left;
 	if ((*tokens)->type == COMMAND)
 		node = parse_command(tokens);
-	else if ((*tokens)->type == COMMAND || (*tokens)->type == ARGUMENT)
+	else if ( (*tokens)->type == ARGUMENT)
 	{
-		if (left)
-		{
-			left = add_argument_to_command(left, (*tokens)->value);
-			*tokens = (*tokens)->next;
-		}
+		if (node)
+			node = add_argument_to_command(left, (*tokens)->value);
 		else
-		{
-			left = create_command_node(&(*tokens)->value);
-			*tokens = (*tokens)->next;
-		}
+			node = create_command_node(&(*tokens)->value);
+		*tokens = (*tokens)->next;
 	}
 	else
 	{
@@ -108,13 +98,14 @@ t_ast	*parse(t_token **tokens)
 {
 	t_ast	*left;
 
+	if ((*tokens)->type != 0 && (*tokens)->type != 1)
+		return (NULL);
 	while (*tokens)
 	{
 		if ((*tokens)->type == REDIR_OUT || (*tokens)->type == REDIR_IN
 			|| (*tokens)->type == REDIR_APPEND || (*tokens)->type == HEREDOC)
 			left = parse_redir(tokens, left);
-		else if ((*tokens)->type == WORD || (*tokens)->type == COMMAND
-			|| (*tokens)->type == ARGUMENT)
+		else if ((*tokens)->type == COMMAND || (*tokens)->type == ARGUMENT)
 			left = parse_word(tokens, left);
 		else if ((*tokens)->type == PIPE)
 			left = parse_pipe(tokens, left);
