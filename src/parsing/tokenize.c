@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:32:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/21 01:24:57 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/25 01:07:09 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ t_token *tokenize(char *input)
     t_token *tokens = NULL;
     int i = 0;
 
+	if (!input[i])
+		ft_putstr_fd("minishell: empty command\n", 2);
     while (input[i])
     {
         if (input[i] == ' ')
@@ -170,13 +172,15 @@ t_token *tokenize(char *input)
             i = handle_pipe(input, i, &tokens);
         else if (input[i] == '>')
         {
-            i = handle_redirection_out(input, i, &tokens);
-            if (i == -1) return NULL;
+			i = handle_redirection_out(input, i, &tokens);
+            if (i == -1) 
+				return NULL;
         }
         else if (input[i] == '<')
         {
             i = handle_redirection_in(input, i, &tokens);
-            if (i == -1) return NULL;
+            if (i == -1) 
+				return NULL;
         }
         else if (input[i] == '"')
             i = handle_double_quote(input, i, &tokens);

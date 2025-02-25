@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:23 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/21 01:24:23 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:14:17 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,3 +175,45 @@ void	classify_tokens(t_token *tokens)
 		tokens = tokens->next;
 	}
 }
+
+t_ast *add_argument_to_command(t_ast *cmd_node, char *arg)
+{
+    char **new_args;
+    int i = 0;
+
+    if (!cmd_node || !arg)
+        return (NULL);
+
+    if (!cmd_node->args)
+    {
+        // Si aucune args encore, on crée un nouveau tableau avec 2 cases (arg + NULL)
+        cmd_node->args = malloc(sizeof(char *) * 2);
+        if (!cmd_node->args)
+            return (NULL);
+        cmd_node->args[0] = ft_strdup(arg);
+        cmd_node->args[1] = NULL;
+        return (cmd_node);
+    }
+
+    while (cmd_node->args[i])
+        i++;
+
+    new_args = malloc(sizeof(char *) * (i + 2)); // +1 pour l'arg, +1 pour NULL
+    if (!new_args)
+        return (NULL);
+
+    i = 0;
+    while (cmd_node->args[i])
+    {
+        new_args[i] = cmd_node->args[i]; // On copie juste les pointeurs
+        i++;
+    }
+    new_args[i] = ft_strdup(arg); // On ajoute le nouvel argument
+    new_args[i + 1] = NULL;
+
+    free(cmd_node->args); // On libère l'ancien tableau mais pas les chaînes !
+    cmd_node->args = new_args;
+
+    return (cmd_node);
+}
+
