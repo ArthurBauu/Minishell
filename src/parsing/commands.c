@@ -6,19 +6,11 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 00:50:46 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/21 00:51:11 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/25 01:37:17 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
 #include "commands.h"
+#include "parsing.h"
 
-char *valid_commands[] = {
-    "echo",
-    "ls",
-    "cat",
-    "grep",
-    "pwd",
-    "cd",
-    NULL 
-};
+char	*valid_commands[] = {"echo", "ls", "cat", "grep", "pwd", "cd", NULL};

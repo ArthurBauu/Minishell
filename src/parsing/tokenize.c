@@ -6,70 +6,11 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:32:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 01:07:09 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/25 01:39:25 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	handle_pipe(char *input, int i, t_token **tokens)
-{
-	(void)input;
-	add_token(tokens, PIPE, "|");
-	i++;
-	return (i);
-}
-
-int handle_redirection_out(char *input, int i, t_token **tokens)
-{
-    if (input[i + 1] == '>')
-    {
-        if (input[i + 2] == '>')
-        {
-            ft_putstr_fd("minishell: unknown operator '>>>'\n", 2);
-            return -1;
-        }
-        else
-        {
-            add_token(tokens, REDIR_APPEND, ">>");
-            i += 2;
-        }
-    }
-    else
-    {
-		if (input[i + 1] == '\0')
-        {
-            ft_putstr_fd("minishell: syntax error near unexpected token '>'\n", 2);
-            return (-1);
-        }
-		add_token(tokens, REDIR_OUT, ">");
-        i++;
-    }
-    return i;
-}
-
-int handle_redirection_in(char *input, int i, t_token **tokens)
-{
-    if (input[i + 1] == '<')
-    {
-        if (input[i + 2] == '<')
-        {
-            ft_putstr_fd("minishell: unknown operator '<<<'\n", 2);
-            return -1;
-        }
-        else
-        {
-            add_token(tokens, HEREDOC, "<<");
-            i += 2;
-        }
-    }
-    else
-    {
-        add_token(tokens, REDIR_IN, "<");
-        i++;
-    }
-    return i;
-}
 
 int	handle_word(char *input, int i, t_token **tokens)
 {
@@ -138,59 +79,44 @@ int	handle_single_quote(char *input, int i, t_token **tokens)
 	return (i);
 }
 
-int	handle_and(char *input, int i, t_token **tokens)
-{
-	(void)input;
-	add_token(tokens, AND, "&&");
-	i += 2;
-	return (i);
-}
+/* FONCTION TROP LONGUE IL FAUT QUE JE LA RACOURCISSE */
 
-int	handle_or(char *input, int i, t_token **tokens)
+t_token	*tokenize(char *input)
 {
-	(void)input;
-	add_token(tokens, OR, "||");
-	i += 2;
-	return (i);
-}
-
-
-t_token *tokenize(char *input)
-{
-    t_token *tokens = NULL;
-    int i = 0;
+	t_token *tokens = NULL;
+	int i = 0;
 
 	if (!input[i])
 		ft_putstr_fd("minishell: empty command\n", 2);
-    while (input[i])
-    {
-        if (input[i] == ' ')
-            i++;
-        else if (input[i] == '|' && input[i + 1] == '|')
-            i = handle_or(input, i, &tokens);
-        else if (input[i] == '|')
-            i = handle_pipe(input, i, &tokens);
-        else if (input[i] == '>')
-        {
+	while (input[i])
+	{
+		if (input[i] == ' ')
+			i++;
+		else if (input[i] == '|' && input[i + 1] == '|')
+			i = handle_or(input, i, &tokens);
+		else if (input[i] == '|')
+			i = handle_pipe(input, i, &tokens);
+		else if (input[i] == '>')
+		{
 			i = handle_redirection_out(input, i, &tokens);
-            if (i == -1) 
-				return NULL;
-        }
-        else if (input[i] == '<')
-        {
-            i = handle_redirection_in(input, i, &tokens);
-            if (i == -1) 
-				return NULL;
-        }
-        else if (input[i] == '"')
-            i = handle_double_quote(input, i, &tokens);
-        else if (input[i] == '\'')
-            i = handle_single_quote(input, i, &tokens);
-        else if (input[i] == '&' && input[i + 1] == '&')
-            i = handle_and(input, i, &tokens);
-        else
-            i = handle_word(input, i, &tokens);
-    }
+			if (i == -1)
+				return (NULL);
+		}
+		else if (input[i] == '<')
+		{
+			i = handle_redirection_in(input, i, &tokens);
+			if (i == -1)
+				return (NULL);
+		}
+		else if (input[i] == '"')
+			i = handle_double_quote(input, i, &tokens);
+		else if (input[i] == '\'')
+			i = handle_single_quote(input, i, &tokens);
+		else if (input[i] == '&' && input[i + 1] == '&')
+			i = handle_and(input, i, &tokens);
+		else
+			i = handle_word(input, i, &tokens);
+	}
 	classify_tokens(tokens);
-    return tokens;
+	return (tokens);
 }

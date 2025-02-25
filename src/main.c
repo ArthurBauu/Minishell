@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:34:22 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 01:04:43 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/25 01:14:49 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,88 +17,88 @@ int main(void) {
     t_token *tokens;
     t_ast *ast;
 
-    // // Test 1: Simple command without error
-    // input = "echo 'Hello World'";
-    // printf("Testing: '%s'\n", input);
-    // tokens = tokenize(input);
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
+    // Test 1: Simple command without error
+    input = "echo 'Hello World'";
+    printf("Testing: '%s'\n", input);
+    tokens = tokenize(input);
+	print_tokens(tokens);
+    ast = parse(&tokens);
+    if (ast) {
+        print_ast(ast, 0);
+        printf("No errors, AST created successfully.\n");
+    } else {
+        printf("Error parsing command.\n");
+    }
+    printf("\n");
 
-    // // Test 2: Command with simple redirection (output)
-    // input = "echo Hello > file.txt";
-    // printf("Testing: '%s'\n", input);
-    // tokens = tokenize(input);
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
+    // Test 2: Command with simple redirection (output)
+    input = "echo Hello > file.txt";
+    printf("Testing: '%s'\n", input);
+    tokens = tokenize(input);
+	print_tokens(tokens);
+    ast = parse(&tokens);
+    if (ast) {
+        print_ast(ast, 0);
+        printf("No errors, AST created successfully.\n");
+    } else {
+        printf("Error parsing command.\n");
+    }
+    printf("\n");
 
-    // // Test 3: Command with append redirection (>>)
-    // input = "echo Hello >> file.txt";
-    // printf("Testing: '%s'\n", input);
-    // tokens = tokenize(input);
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
+    // Test 3: Command with append redirection (>>)
+    input = "echo Hello >> file.txt";
+    printf("Testing: '%s'\n", input);
+    tokens = tokenize(input);
+	print_tokens(tokens);
+    ast = parse(&tokens);
+    if (ast) {
+        print_ast(ast, 0);
+        printf("No errors, AST created successfully.\n");
+    } else {
+        printf("Error parsing command.\n");
+    }
+    printf("\n");
 
-    // // Test 4: Command with pipe
-    // input = "echo Hello | grep Hello";
-    // printf("Testing: '%s'\n", input);
-    // tokens = tokenize(input);
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
+    // Test 4: Command with pipe
+    input = "echo Hello | grep Hello";
+    printf("Testing: '%s'\n", input);
+    tokens = tokenize(input);
+	print_tokens(tokens);
+    ast = parse(&tokens);
+    if (ast) {
+        print_ast(ast, 0);
+        printf("No errors, AST created successfully.\n");
+    } else {
+        printf("Error parsing command.\n");
+    }
+    printf("\n");
 
-    // // Test 5: Command with logical AND (&&)
-    // input = "echo Hello && echo World";
-    // printf("Testing: '%s'\n", input);
-    // tokens = tokenize(input);
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
+    // Test 5: Command with logical AND (&&)
+    input = "echo Hello && echo World";
+    printf("Testing: '%s'\n", input);
+    tokens = tokenize(input);
+	print_tokens(tokens);
+    ast = parse(&tokens);
+    if (ast) {
+        print_ast(ast, 0);
+        printf("No errors, AST created successfully.\n");
+    } else {
+        printf("Error parsing command.\n");
+    }
+    printf("\n");
 
-    // // Test 6: Command with logical OR (||)
-    // input = "echo Hello || echo World";
-    // printf("Testing 6: '%s'\n", input);
-    // tokens = tokenize(input);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
+    // Test 6: Command with logical OR (||)
+    input = "echo Hello || echo World";
+    printf("Testing 6: '%s'\n", input);
+    tokens = tokenize(input);
+    ast = parse(&tokens);
+    if (ast) {
+        print_ast(ast, 0);
+        printf("No errors, AST created successfully.\n");
+    } else {
+        printf("Error parsing command.\n");
+    }
+    printf("\n");
 
     // Test 7: Command with missing redirection argument
     input = "echo Hello >";
