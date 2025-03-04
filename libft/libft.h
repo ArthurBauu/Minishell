@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 13:05:39 by arthur            #+#    #+#             */
-/*   Updated: 2025/02/16 19:55:46 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:24:48 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char				*ft_strnstr(const char *haystack, const char *needle,
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin_free(char *s1, char *s2);
+char				*ft_strjoin_char(char *str, char c);
 char				*ft_strtrim(const char *s, char const *set);
 int					ft_atoi(const char *nptr);
 char				*ft_itoa(int num);

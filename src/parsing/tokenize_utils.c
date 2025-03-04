@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:23 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 13:44:03 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:21:03 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_token	*add_token(t_token **head, t_token_type type, char *value)
 	t_token	*new_token;
 	t_token	*temp;
 
+	new_token = NULL;
 	new_token = create_token(type, value);
 	if (!new_token)
 		return (NULL);

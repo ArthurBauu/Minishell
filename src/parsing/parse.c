@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/26 00:52:36 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:28:53 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static t_ast	*parse_redir(t_token **tokens, t_ast *node)
 		*tokens = (*tokens)->next;
 		if (!(*tokens) || ((*tokens)->type != ARGUMENT))
 			return (NULL);
+		// printf("%s\n", (*tokens)->value);
 		filename = allocate_filename(*tokens);
 		if (!filename)
 			return (*tokens = (*tokens)->next, NULL);
@@ -65,6 +66,7 @@ static t_ast	*parse_redir(t_token **tokens, t_ast *node)
 		if (*tokens && ((*tokens)->type == ARGUMENT || (*tokens)->type == COMMAND))
 			node = parse_word(tokens, node);
 	}
+	// printf("test2");
 	return (node);
 }
 
@@ -96,10 +98,15 @@ t_ast	*parse_word(t_token **tokens, t_ast *left)
 
 t_ast	*parse(t_token **tokens)
 {
-	t_ast	*left;
+	t_ast	*left = NULL;
 
-	if ((*tokens)->type != 0 && (*tokens)->type != 1)
+	left = init_ast();
+	if ((*tokens)->type == 3 || (*tokens)->type == 8 || (*tokens)->type == 9)
+	{
+		printf("test12");
+		print_tokens(*tokens);
 		return (NULL);
+	}
 	while (*tokens)
 	{
 		if ((*tokens)->type == REDIR_OUT || (*tokens)->type == REDIR_IN
@@ -116,6 +123,7 @@ t_ast	*parse(t_token **tokens)
 			ft_putstr_fd("minishell: syntax error: invalid token\n", 2);
 			return (NULL);
 		}
+		// printf("test1\n");
 		if (!left)
 			return (NULL);
 	}

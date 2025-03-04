@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:18:35 by arbaudou          #+#    #+#             */
-/*   Updated: 2024/11/27 13:26:51 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:19:19 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,52 +62,54 @@ int	ft_printf(const char *format, ...)
 	return (len);
 }
 
-// #include <stdio.h>
-// #include <limits.h>
-// int main() 
-// {
-//     char *str = "Bonjour";
-//     void *ptr = &str;
-// 	int len = 0;
 
-// 	ft_printf(" %s  \n", "");
-//     ft_printf("Bonjour %s, il est %u%% vous avez %i 
-// 		messages et il reste %d part de pizza. %c%c%c\n", 
-// 		"Alice", 4, -124567, 1,"A", "B", "C");
+static int	char_form_error(const char c, int fd, va_list args)
+{
+	int	len;
 
-// 	len = ft_printf("Bonjour %s, %cl est %u%% vous avez %i 
-// 		messages et il reste %d part de pizza. %c %c %c\n", 
-// 		"Alice", 'i', 4, -124567, 1,'A', 'B', 'C');
-// 	ft_printf("%u\n", len);
-// 	len = ft_printf("%i\n", 89846);
-// 	ft_printf("%u\n", len);
-// 	len = ft_printf("hriuhhzher%i____%s\n", 25426, "Hello world");
-// 	ft_printf("%u\n", len);
-// 	len = ft_printf("Bonjour nombre en base 16 l 154647646 : %x\n", 15467646);
-// 	ft_printf("%u\n", len);
-// 	len = ft_printf("Bonjour nombre en base 16 u 154647646 : %X\n", 15467646);
-// 	ft_printf("%u\n", len);
-// 	len = ft_printf("%p\n", ptr);
-// 	ft_printf("%u\n", len);
-// 	len = ft_printf("%s%s%s%s%s", "", "", "", "", "");
-// 	ft_printf("%u\n", len);
+	if (c == 'c')
+		len = ft_putchar_fd_error(va_arg(args, int), fd);
+	if (c == 's')
+		len = ft_putstr_fd_error(va_arg(args, char *), fd);
+	if (c == 'i' || c == 'd')
+		len = ft_putinbr_error(va_arg(args, int), fd);
+	if (c == 'u')
+		len = ft_putnbr_base_error(va_arg(args, long), BASE_TEN, fd);
+	if (c == '%')
+		len = ft_putchar_fd_error('%', fd);
+	if (c == 'x')
+		len = ft_putnbr_base_error(va_arg(args, unsigned int), LHEXBASE, fd);
+	if (c == 'X')
+		len = ft_putnbr_base_error(va_arg(args, unsigned int), UHEXBASE, fd);
+	if (c == 'p')
+		len = ft_putadrr_base_error(va_arg(args, void *), LHEXBASE, fd);
+	return (len);
+}
 
-// 	len = ft_printf("%c\n", '5');
-// 	ft_printf("%d\n", len);
+int	ft_printf_error( int n, const char *format, ...)
+{
+	const char	*str = format;
+	int			i;
+	char		c;
+	va_list		args;
+	int			len;
 
-// 	len = ft_printf("%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% 
-// 	%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%", 
-// 	'A', "42", 42, 42 ,42 , 42, 42, 'B', "-42", -42, -42 ,-42 ,-42, 42, 
-// 	'C', "0", 0, 0 ,0 ,0, 42, 0);
-// 	ft_printf("\n%u\n", len);
+	va_start(args, format);
+	i = 0;
+	len = 0;
+	while (str[i])
+	{
+		if (str[i] == '%' && str[i + 1])
+		{
+			i++;
+			c = str[i];
+			len += char_form_error(c, n, args);
+		}
+		else
+			len += ft_putchar_fd_error(str[i], n);
+		i++;
+	}
+	va_end (args);
+	return (len);
+}
 
-// 	ft_printf(" %p %p \n", LONG_MIN, LONG_MAX);
-// 	ft_printf(" %p %p \n", ULONG_MAX, -ULONG_MAX);
-// 	ft_printf(" %p %p \n", 0, 0);
-
-// 	printf(" %p %p \n", LONG_MIN, LONG_MAX);
-// 	printf(" %p %p \n", ULONG_MAX, -ULONG_MAX);
-// 	printf(" %p %p \n", 0, 0);
-
-// 	return 0;
-// }

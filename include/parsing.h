@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:52:42 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/25 13:45:38 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:23:41 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,13 @@ int					handle_pipe(char *input, int i, t_token **tokens);
 int					handle_redirection_out(char *input, int i,
 						t_token **tokens);
 int					handle_redirection_in(char *input, int i, t_token **tokens);
+char				*expand_variable(char *word);
 
 /*  NODES  */
 t_ast				*create_command_node(char **args);
 t_ast				*create_operator_node(t_ast_type type, t_ast *left,
 						t_ast *right);
+t_ast				*init_ast(void);
 
 /*  UTILS  */
 
@@ -92,6 +94,7 @@ int					is_operator(char *word);
 void				classify_tokens(t_token *tokens);
 t_ast				*add_argument_to_command(t_ast *cmd_node, char *arg);
 t_ast_type			get_redir_type(t_token *token);
+void				free_all(t_ast *ast, t_token *tokens);
 
 /* A SUPPRIMER */
 void				print_ast(t_ast *node, int level);
