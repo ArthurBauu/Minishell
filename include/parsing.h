@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:52:42 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/06 03:24:12 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:12:53 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,17 @@ int					handle_redirection_out(char *input, int i,
 						t_token **tokens);
 int					handle_redirection_in(char *input, int i, t_token **tokens);
 char				*expand_variable(char *word);
-
+int					parsing(char *input);
 
 /* FREE */
-void free_tokens(t_token *tokens);
-void free_ast(t_ast *ast);
-
+void				free_tokens(t_token *tokens);
+void				free_ast(t_ast *ast);
 
 /*  NODES  */
 t_ast				*create_command_node(char **args);
 t_ast				*create_operator_node(t_ast_type type, t_ast *left,
 						t_ast *right);
-						t_ast	*init_ast(t_ast *node);
+t_ast				*init_ast(t_ast *node);
 
 /*  UTILS  */
 

@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:34:22 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/06 04:00:33 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:14:07 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,169 +17,46 @@ int	g_exit_status = 42;
 
 int main() {
     char *input;
-    t_token *tokens;
-	t_token *start;
-    t_ast *ast;
 
-    // // Test 1: Command with input redirection
-    // input = " > outfile pwd || env ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 1: Command with input redirection
+    input = " > outfile pwd || env ";
+    parsing(input);
 
-    // // Test 2: Command with output redirection
-    // input = " | echo hello || out.txt ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 2: Command with output redirection
+    input = " | echo hello || out.txt ";
+    parsing(input);
 
-    // // Test 3: Command with output redirection (append)
-    // input = " echo hello >> out.txt ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 3: Command with output redirection (append)
+    input = " echo hello >> out.txt ";
+    parsing(input);
 
-    // // Test 4: Pipe with input redirection
-    // input = " cat < infile | grep hello ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 4: Pipe with input redirection
+    input = " cat < infile | grep hello ";
+    parsing(input);
 
-    // // Test 5: Pipe with multiple output redirections
-    // input = " ls > file | grep test >> output.txt ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 5: Pipe with multiple output redirections
+    input = " ls > file | grep test >> output.txt ";
+	parsing(input);
 
-    // // Test 6: Command with redirection and logical AND
-    // input = " ls > file && echo Done ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 6: Command with redirection and logical AND
+    input = " ls > file && echo Done ";
+    parsing(input);
 
-    // // Test 7: Command with redirection and logical OR
-    // input = " ls > file || echo Error ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 7: Command with redirection and logical OR
+    input = " ls > file || echo Error ";
+    parsing(input);
 
-    // // Test 8: Pipe with output redirection and logical AND
-    // input = " ls | grep test > result.txt && echo Done ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 8: Pipe with output redirection and logical AND
+    input = " ls | grep test > result.txt && echo Done ";
+    parsing(input);
 
     // Test 9: Syntax error in redirection
     input = " ls > | file ";
-    printf("Testing: '%s'\n", input);
-    start = tokenize(input);
-    tokens = start;
-	print_tokens(tokens);
-    ast = parse(&tokens);
-    if (ast) {
-        print_ast(ast, 0);
-        printf("No errors, AST created successfully.\n");
-    } else {
-        printf("Error parsing command.\n");
-    }
-    printf("\n");
-    free_all(ast, start);
+	parsing(input);
 
-    // // Test 10: Multiple redirections and pipes in chain
-    // input = " cat < infile | grep test > out.txt | wc -l ";
-    // printf("Testing: '%s'\n", input);
-    // start = tokenize(input);
-    // tokens = start;
-	// print_tokens(tokens);
-    // ast = parse(&tokens);
-    // if (ast) {
-    //     print_ast(ast, 0);
-    //     printf("No errors, AST created successfully.\n");
-    // } else {
-    //     printf("Error parsing command.\n");
-    // }
-    // printf("\n");
-    // free_all(ast, start);
+    // Test 10: Multiple redirections and pipes in chain
+    input = " cat < infile | grep test > out.txt | wc -l ";
+	parsing(input);
 
     return 0;
 }
