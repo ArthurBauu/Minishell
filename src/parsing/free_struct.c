@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:53:33 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/27 17:12:56 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/06 01:26:06 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void free_tab(char **tab)
 	i = 0;
 	if (!tab)
 		return;
+	if (tab[i] == NULL)
+		return;
 	while (tab[i])
 	{
 		free(tab[i]);
@@ -29,24 +31,23 @@ void free_tab(char **tab)
 
 void free_ast(t_ast *ast)
 {
-	if (!ast)
-		return;
-	if (ast->value)
-		free_tab(ast->value);
-	if (ast->file)
-		free(ast->file);
-	if (ast->args)
-		free_tab(ast->args);
-	free_ast(ast->left);
-	free_ast(ast->right);
-	free(ast);	
+    if (!ast)
+        return;
+    if (ast->value)
+        free_tab(ast->value);
+    if (ast->file)
+        free(ast->file);
+    if (ast->args)
+        free_tab(ast->args);
+    free_ast(ast->left);
+    free_ast(ast->right);
+    free(ast);
 }
 
 void free_tokens(t_token *tokens)
 {
 	t_token *tmp;
 
-	printf("test 123\n");
 	while (tokens)
 	{
 		tmp = tokens->next;

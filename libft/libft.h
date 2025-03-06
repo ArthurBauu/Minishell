@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 13:05:39 by arthur            #+#    #+#             */
-/*   Updated: 2025/02/26 13:24:48 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/06 03:43:05 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 size_t				ft_strnlen(const char *s, size_t maxlen);
 char				*ft_strndup(const char *s, size_t n);
+void				ft_free(char **tab, int index);
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);

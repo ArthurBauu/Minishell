@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:48:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/27 17:23:28 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/06 03:52:17 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ t_ast	*create_command_node(char **args)
 	node->type = NODE_COMMAND;
 	node->left = NULL;
 	node->right = NULL;
+	node->file = NULL;
 	node->value = args;
+	node->args = NULL;
 	return (node);
 }
 
@@ -37,13 +39,13 @@ t_ast	*create_operator_node(t_ast_type type, t_ast *left, t_ast *right)
 	node->left = left;
 	node->right = right;
 	node->value = NULL;
+	node->file = NULL;
+	node->args = NULL;
 	return (node);
 }
 
-t_ast	*init_ast(void)
+t_ast	*init_ast(t_ast *node)
 {
-	t_ast	*node;
-
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);

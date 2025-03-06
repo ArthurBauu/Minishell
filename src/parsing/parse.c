@@ -6,67 +6,53 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/04 14:28:53 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/06 04:09:11 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static char	**allocate_filename(t_token *token)
-{
-	char	**filename;
+// static char	**allocate_filename(t_token *token)
+// {
+// 	char	**filename;
 
-	filename = malloc(sizeof(char *) * 2);
-	if (!filename)
-		return (NULL);
-	filename[0] = ft_strdup(token->value);
-	if (!filename[0])
-	{
-		free(filename);
-		return (NULL);
-	}
-	filename[1] = NULL;
-	return (filename);
-}
+// 	filename = malloc(sizeof(char *) * 2);
+// 	if (!filename)
+// 		return (NULL);
+// 	filename[0] = ft_strdup(token->value);
+// 	if (!filename[0])
+// 	{
+// 		free(filename);
+// 		return (NULL);
+// 	}
+// 	filename[1] = NULL;
+// 	return (filename);
+// }
 
 /* FONCTION TROP LONGUE IL FAUT QUE JE LA RACOURCISSE */
 
 static t_ast	*parse_redir(t_token **tokens, t_ast *node)
 {
 	t_ast_type	type;
-	t_ast		*right;
-	char		**filename;
 
 	while (*tokens && is_redirection((*tokens), 0))
 	{
 		if ((*tokens)->next && is_redirection((*tokens)->next, 1))
-			return (NULL); /* utiliser return pour les mains qui test plein de de chose */
-			// exit(1); /* Sinon utiliser exit sera plus simple je pense (permet d'eviter les doubles msg d'erreur)*/
+			return (free_ast(node), NULL); /* utiliser return pour les mains qui test plein de de chose */
+		 // exit(1); /* Sinon utiliser exit sera plus simple je pense (permet d'eviter les doubles msg d'erreur)*/
 		type = get_redir_type(*tokens);
 		*tokens = (*tokens)->next;
 		if (!(*tokens) || ((*tokens)->type != ARGUMENT))
 			return (NULL);
-		// printf("%s\n", (*tokens)->value);
-		filename = allocate_filename(*tokens);
-		if (!filename)
-			return (*tokens = (*tokens)->next, NULL);
-		right = create_command_node(filename);
-		if (!right)
-		{
-			free(filename[0]);
-			free(filename);
-			*tokens = (*tokens)->next;
-			return (NULL);
-		}
-		*tokens = (*tokens)->next;
 		if (!node)
-			node = create_operator_node(type, right, NULL);
+			node = create_operator_node(type, NULL, NULL);
 		else
-			node = create_operator_node(type, node, right);
-		if (*tokens && ((*tokens)->type == ARGUMENT || (*tokens)->type == COMMAND))
-			node = parse_word(tokens, node);
+			node = create_operator_node(type, node, NULL);
+		node->file = ft_strdup((*tokens)->value);
+		*tokens = (*tokens)->next;
+		if ((*tokens) && ((*tokens)->type == COMMAND || (*tokens)->type == ARGUMENT))
+			node->left = parse_word(tokens, node);
 	}
-	// printf("test2");
 	return (node);
 }
 
@@ -79,7 +65,7 @@ t_ast	*parse_word(t_token **tokens, t_ast *left)
 	node = left;
 	if ((*tokens)->type == COMMAND)
 		node = parse_command(tokens);
-	else if ( (*tokens)->type == ARGUMENT)
+	else if ((*tokens)->type == ARGUMENT)
 	{
 		if (node)
 			node = add_argument_to_command(left, (*tokens)->value);
@@ -90,7 +76,7 @@ t_ast	*parse_word(t_token **tokens, t_ast *left)
 	else
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
-		return (NULL);
+		return (free_ast(left), NULL);
 	}
 	node = parse_redir(tokens, node);
 	return (node);
@@ -98,15 +84,11 @@ t_ast	*parse_word(t_token **tokens, t_ast *left)
 
 t_ast	*parse(t_token **tokens)
 {
-	t_ast	*left = NULL;
+	t_ast	*left;
 
-	left = init_ast();
+	left = NULL;
 	if ((*tokens)->type == 3 || (*tokens)->type == 8 || (*tokens)->type == 9)
-	{
-		printf("test12");
-		print_tokens(*tokens);
 		return (NULL);
-	}
 	while (*tokens)
 	{
 		if ((*tokens)->type == REDIR_OUT || (*tokens)->type == REDIR_IN
@@ -121,9 +103,8 @@ t_ast	*parse(t_token **tokens)
 		else
 		{
 			ft_putstr_fd("minishell: syntax error: invalid token\n", 2);
-			return (NULL);
+			return (free_ast(left), NULL);
 		}
-		// printf("test1\n");
 		if (!left)
 			return (NULL);
 	}
