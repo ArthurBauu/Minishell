@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 18:12:43 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/01/10 12:59:15 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:49:31 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,17 @@ void	print_split(char **split)
 {
 	int	i;
 
+	if (!split)
+	{
+		ft_putstr_fd("minishell: split is NULL\n", 2);
+		return;
+	}
 	i = 0;
 	while (split[i])
 	{
-		printf("%s\n", split[i]);
+		ft_printf("%i\n", i);
+		ft_printf("%s\n", split[i]);
+		ft_printf("%i\n", i);
 		i++;
 	}
 }

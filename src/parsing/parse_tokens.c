@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/06 04:05:59 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/07 02:04:01 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,35 +35,12 @@ t_ast	*parse_command(t_token **tokens)
 	return (create_command_node(args));
 }
 
-t_ast	*parse_pipe(t_token **tokens, t_ast *left)
-{
-	t_ast	*right;
 
-	if (!left && (*tokens)->type == PIPE)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
-		return (free_ast(left), NULL);
-	}
-	if (!(*tokens)->next || (*tokens)->next->type == PIPE)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token '||'\n", 2);
-		*tokens = (*tokens)->next;
-		return (free_ast(left), NULL);
-	}
-	*tokens = (*tokens)->next;
-	right = parse_command(tokens);
-	if (!right)
-	{
-		ft_putstr_fd("minishell: syntax error after '|'\n", 2);
-		return (free_ast(left), NULL);
-	}
-	return (create_operator_node(NODE_PIPE, left, right));
-}
 
 t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 {
-	t_ast *right;
-	t_ast_type type;
+	t_ast		*right;
+	t_ast_type	type;
 
 	if ((*tokens)->type == AND)
 		type = NODE_AND;
@@ -80,7 +57,7 @@ t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 	right = parse_word(tokens, NULL);
 	if (!right)
 	{
-		ft_putstr_fd("minishell: syntax error after logical operator\n", 2);
+		ft_putstr_fd("minishell: invalid AST node\n", 2);
 		return (free_ast(left), NULL);
 	}
 	return (create_operator_node(type, left, right));

@@ -54,6 +54,7 @@ INCDIR = include
 # Source Files
 SRC = main.c\
 		parsing/parsing.c\
+		parsing/parsing_utils.c\
 		parsing/node_init.c\
 		parsing/tokenize.c\
 		parsing/tokenize2.c\
