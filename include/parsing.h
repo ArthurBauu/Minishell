@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:52:42 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/06 16:59:28 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:29:59 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 typedef enum e_token_type
 {
-	COMMAND,      /*  Commandes  */
-	ARGUMENT,     /*  Arguments  */
 	WORD,         /*  Commande ou argument*/
 	PIPE,         /*  '|'  */
 	REDIR_IN,     /*  '<'  */

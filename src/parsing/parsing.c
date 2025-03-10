@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_55.c                                       :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:37:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/07 03:29:30 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/10 00:28:25 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int parsing(char *input)
 	
 	printf("Testing: '%s'\n", input);
 	start = tokenize(input);
+	if (start == NULL)
+		return (0);
 	tokens = start;
 	print_tokens(tokens);
 	ast = parse(&tokens);

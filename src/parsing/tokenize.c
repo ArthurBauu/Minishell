@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:32:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/26 00:29:52 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:12:34 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,21 +92,19 @@ t_token	*tokenize(char *input)
 	{
 		if (input[i] == ' ')
 			i++;
-		else if (input[i] == '|' && input[i + 1] == '|')
-			i = handle_or(input, i, &tokens);
 		else if (input[i] == '|')
 			i = handle_pipe(input, i, &tokens);
 		else if (input[i] == '>')
 		{
 			i = handle_redirection_out(input, i, &tokens);
 			if (i == -1)
-				return (NULL);
+				return (free_tokens(tokens), NULL);
 		}
 		else if (input[i] == '<')
 		{
 			i = handle_redirection_in(input, i, &tokens);
 			if (i == -1)
-				return (NULL);
+				return (free_tokens(tokens),NULL);
 		}
 		else if (input[i] == '"')
 			i = handle_double_quote(input, i, &tokens);
@@ -117,6 +115,5 @@ t_token	*tokenize(char *input)
 		else
 			i = handle_word(input, i, &tokens);
 	}
-	classify_tokens(tokens);
 	return (tokens);
 }

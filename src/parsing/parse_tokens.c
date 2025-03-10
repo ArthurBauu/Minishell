@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/07 02:04:01 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:30:55 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ t_ast	*parse_command(t_token **tokens)
 	args = malloc(sizeof(char *) * (count_args(*tokens) + 1));
 	if (!args)
 		return (NULL);
-	while (*tokens && ((*tokens)->type == COMMAND
-			|| (*tokens)->type == ARGUMENT))
+	while (*tokens && ((*tokens)->type == WORD))
 	{
 		args[i++] = ft_strdup((*tokens)->value);
 		if (!args)
@@ -49,7 +48,7 @@ t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 	else
 		return (NULL);
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || (*tokens)->type != COMMAND)
+	if (!(*tokens) || (*tokens)->type != WORD)
 	{
 		ft_putstr_fd("minishell: missing command after logical operator\n", 2);
 		return (free_ast(left), NULL);

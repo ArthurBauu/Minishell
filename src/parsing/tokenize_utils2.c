@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:11:08 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/02/26 00:27:27 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:30:14 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	count_args(t_token *tokens)
 	
 	while (tokens && !is_operator(tokens->value))
 	{
-		if (tokens->type == COMMAND || tokens->type == ARGUMENT)
+		if (tokens->type == WORD)
 		{
 			count++;
 		}
@@ -45,20 +45,6 @@ int	is_command(char *word)
 	return (0);
 }
 
-void	classify_tokens(t_token *tokens)
-{
-	while (tokens)
-	{
-		if (tokens->type == WORD)
-		{
-			if (is_command(tokens->value))
-				tokens->type = COMMAND;
-			else
-				tokens->type = ARGUMENT;
-		}
-		tokens = tokens->next;
-	}
-}
 
 t_ast	*init_args(t_ast *cmd_node, char *arg)
 {

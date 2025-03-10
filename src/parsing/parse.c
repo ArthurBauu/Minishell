@@ -6,30 +6,12 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/07 03:32:20 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/09 23:42:13 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-// static char	**allocate_filename(t_token *token)
-// {
-// 	char	**filename;
-
-// 	filename = malloc(sizeof(char *) * 2);
-// 	if (!filename)
-// 		return (NULL);
-// 	filename[0] = ft_strdup(token->value);
-// 	if (!filename[0])
-// 	{
-// 		free(filename);
-// 		return (NULL);
-// 	}
-// 	filename[1] = NULL;
-// 	return (filename);
-// }
-
-/* FONCTION TROP LONGUE IL FAUT QUE JE LA RACOURCISSE */
 
 static t_ast	*parse_redir(t_token **tokens, t_ast *node)
 {
@@ -41,7 +23,7 @@ static t_ast	*parse_redir(t_token **tokens, t_ast *node)
 			return (free_ast(node), NULL);
 		type = get_redir_type(*tokens);
 		*tokens = (*tokens)->next;
-		if (!(*tokens) || ((*tokens)->type != ARGUMENT))
+		if (!(*tokens) || ((*tokens)->type != WORD))
 			return (NULL);
 		if (!node)
 			node = create_operator_node(type, NULL, NULL);
@@ -49,7 +31,7 @@ static t_ast	*parse_redir(t_token **tokens, t_ast *node)
 			node = create_operator_node(type, node, NULL);
 		node->file = ft_strdup((*tokens)->value);
 		*tokens = (*tokens)->next;
-		if ((*tokens) && ((*tokens)->type == COMMAND || (*tokens)->type == ARGUMENT))
+		if ((*tokens) && ((*tokens)->type == WORD))
 			node->left = parse_word(tokens, node);
 	}
 	return (node);
@@ -95,9 +77,9 @@ t_ast	*parse_word(t_token **tokens, t_ast *left)
 	if (!tokens || !(*tokens))
 		return (NULL);
 	node = left;
-	if ((*tokens)->type == COMMAND)
+	if ((*tokens)->type == WORD)
 		node = parse_command(tokens);
-	else if ((*tokens)->type == ARGUMENT)
+	else if ((*tokens)->type == WORD)
 	{
 		if (node)
 			node = add_argument_to_command(left, (*tokens)->value);
@@ -127,7 +109,7 @@ t_ast	*parse(t_token **tokens)
 		if ((*tokens)->type == REDIR_OUT || (*tokens)->type == REDIR_IN
 			|| (*tokens)->type == REDIR_APPEND || (*tokens)->type == HEREDOC)
 			left = parse_redir(tokens, left);
-		else if ((*tokens)->type == COMMAND || (*tokens)->type == ARGUMENT)
+		else if ((*tokens)->type == WORD)
 			left = parse_word(tokens, left);
 		else if ((*tokens)->type == PIPE)
 			left = parse_pipe(tokens, left);
