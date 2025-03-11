@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 03:08:26 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:50:58 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_ast	*parse_command(t_token **tokens)
 {
 	char	**args;
 	int		i;
+	t_ast *new_redir;
+	t_ast *cmd_node;
 
 	i = 0;
 	if (!tokens || !(*tokens))
@@ -31,7 +33,19 @@ t_ast	*parse_command(t_token **tokens)
 		*tokens = (*tokens)->next;
 	}
 	args[i] = NULL;
-	return (create_command_node(args));
+	cmd_node = create_command_node(args);
+	while (*tokens && is_redirection(*tokens, 0))
+	{
+		new_redir = parse_redir(tokens, NULL);
+		if (!new_redir)
+			return (free_ast(cmd_node), NULL);
+		if (!new_redir->left)
+			new_redir->left = cmd_node;
+		else
+			free_ast(cmd_node);
+		cmd_node = new_redir;
+	}
+	return (cmd_node);	
 }
 
 

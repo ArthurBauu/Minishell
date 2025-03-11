@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:34:22 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 03:15:51 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:57:20 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int main() {
     char *input;
 
 
-	// // // Test 0 : test  : 
-	// input = " echo hello <<<";
-	// parsing(input);
+	// // Test 0 : test  : 
+	input = " echo 1 > out1 | echo 2 > out2 | echo 3 > out3";
+	parsing(input);
 
     // // Test 1: Command with input redirection
     // input = " echo hi && << EOF grep hi ";

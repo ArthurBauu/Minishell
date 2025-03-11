@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 03:15:17 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:56:52 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,29 @@ t_ast	*parse_pipe(t_token **tokens, t_ast *left)
 		return (free_ast(left), NULL);
 	}
 	*tokens = (*tokens)->next;
-	if (*tokens && (*tokens)->type == WORD)
-		right = parse_command(tokens);
-	else if (*tokens && is_redirection((*tokens), 0))
+	if (*tokens && is_redirection((*tokens), 0))
 	{
+		printf("test123\n");
 		redir = parse_redir(tokens, redir);
 		if (!redir)
 			return (free_ast(left), free_ast(right), NULL);
-		if (!redir->left)
-			redir->left = right;
-		right = redir;
+		return (create_operator_node(NODE_PIPE, left, redir));
+	}
+	if (*tokens && (*tokens)->type == WORD)
+	{
+		printf("test123\n");
+		right = parse_command(tokens);
+		if (redir)
+		{
+			if (!redir->left)
+				redir->left = right;
+			right = redir;
+		}
 	}
 	if (!right)
 	{
 		ft_putstr_fd("minishell: syntax error after '|'\n", 2);
-		return (free_ast(left), NULL);
+		return (free_ast(left), free_ast(redir), NULL);
 	}
 	return (create_operator_node(NODE_PIPE, left, right));
 }
