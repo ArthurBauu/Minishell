@@ -6,14 +6,14 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/09 23:42:13 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 03:15:17 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
 
-static t_ast	*parse_redir(t_token **tokens, t_ast *node)
+t_ast	*parse_redir(t_token **tokens, t_ast *node)
 {
 	t_ast_type	type;
 
@@ -51,14 +51,9 @@ t_ast	*parse_pipe(t_token **tokens, t_ast *left)
 		return (free_ast(left), NULL);
 	}
 	*tokens = (*tokens)->next;
-	right = parse_command(tokens);
-	if (!right)
-	{
-		ft_putstr_fd("minishell: syntax error after '|'\n", 2);
-		return (free_ast(left), NULL);
-	}
-	while (*tokens && ((*tokens)->type == REDIR_OUT || (*tokens)->type == REDIR_APPEND
-		|| (*tokens)->type == REDIR_IN || (*tokens)->type == HEREDOC))
+	if (*tokens && (*tokens)->type == WORD)
+		right = parse_command(tokens);
+	else if (*tokens && is_redirection((*tokens), 0))
 	{
 		redir = parse_redir(tokens, redir);
 		if (!redir)
@@ -66,6 +61,11 @@ t_ast	*parse_pipe(t_token **tokens, t_ast *left)
 		if (!redir->left)
 			redir->left = right;
 		right = redir;
+	}
+	if (!right)
+	{
+		ft_putstr_fd("minishell: syntax error after '|'\n", 2);
+		return (free_ast(left), NULL);
 	}
 	return (create_operator_node(NODE_PIPE, left, right));
 }

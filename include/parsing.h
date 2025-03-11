@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:52:42 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/09 23:29:59 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 02:42:39 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int					handle_redirection_in(char *input, int i, t_token **tokens);
 char				*expand_variable(char *word);
 int					parsing(char *input);
 int					check_error(t_token **tokens);
+t_ast	*parse_redir(t_token **tokens, t_ast *node);
 
 /* FREE */
 void				free_tokens(t_token *tokens);

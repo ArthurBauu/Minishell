@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:34:22 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/10 17:13:31 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 03:15:51 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,49 +19,49 @@ int main() {
     char *input;
 
 
-	// // Test 0 : test  : 
+	// // // Test 0 : test  : 
 	// input = " echo hello <<<";
 	// parsing(input);
 
-    // Test 1: Command with input redirection
-    input = "  << EOF cat | grep hello | wc | cat -e >> outfile  ";
-    parsing(input);
-
-    // // Test 2: Command with output redirection
-    // input = " echo hello > in.txt | < out.txt grep hello | wc -w > out.txt env";
+    // // Test 1: Command with input redirection
+    // input = " echo hi && << EOF grep hi ";
     // parsing(input);
 
-    // Test 3: Command with output redirection (append)
-    input = " echo hello >> out.txt ";
+    // // Test 2: Command with output redirection
+    input = " echo hello | < out.txt test1 test etstet st ett | test tets ";
     parsing(input);
 
-    // Test 4: Pipe with input redirection
-    input = " cat < infile | grep hello ";
-    parsing(input);
+    // // Test 3: Command with output redirection (append)
+    // input = " echo hello >> out.txt ";
+    // parsing(input);
 
-    // Test 5: Pipe with multiple output redirections
-    input = " ls > file | grep test >> output.txt ";
-	parsing(input);
+    // // Test 4: Pipe with input redirection
+    // input = " cat < infile | grep hello ";
+    // parsing(input);
 
-    // Test 6: Command with redirection and logical AND
-    input = " ls > file && echo Done ";
-    parsing(input);
+    // // Test 5: Pipe with multiple output redirections
+    // input = " ls > file | grep test >> output.txt ";
+	// parsing(input);
 
-    // Test 7: Command with redirection and logical OR
-    input = " ls > file || echo Error ";
-    parsing(input);
+    // // Test 6: Command with redirection and logical AND
+    // input = " ls > file && echo Done ";
+    // parsing(input);
 
-    // Test 8: Pipe with output redirection and logical AND
-    input = " ls | grep test > result.txt && echo Done ";
-    parsing(input);
+    // // Test 7: Command with redirection and logical OR
+    // input = " ls > file || echo Error ";
+    // parsing(input);
 
-    // Test 9: Syntax error in redirection
-    input = " ls > | file ";
-	parsing(input);
+    // // Test 8: Pipe with output redirection and logical AND
+    // input = " ls | grep test > result.txt && echo Done ";
+    // parsing(input);
 
-    // Test 10: Multiple redirections and pipes in chain
-    input = " cat < infile | grep test > out.txt | wc -l ";
-	parsing(input);
+    // // Test 9: Syntax error in redirection
+    // input = " ls > | file echo";
+	// parsing(input);
+
+    // // Test 10: Multiple redirections and pipes in chain
+    // input = " cat < infile | grep test > out.txt | wc -l ";
+	// parsing(input);
 
     return 0;
 }

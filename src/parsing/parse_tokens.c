@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/09 23:30:55 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 03:08:26 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 	t_ast		*right;
 	t_ast_type	type;
 
+	right = NULL;
 	if ((*tokens)->type == AND)
 		type = NODE_AND;
 	else if ((*tokens)->type == OR)
@@ -48,12 +49,15 @@ t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 	else
 		return (NULL);
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || (*tokens)->type != WORD)
+	if (!(*tokens) || ((*tokens)->type != WORD && is_redirection((*tokens), 0) != 1))
 	{
 		ft_putstr_fd("minishell: missing command after logical operator\n", 2);
 		return (free_ast(left), NULL);
 	}
-	right = parse_word(tokens, NULL);
+	if (is_redirection((*tokens), 0))
+		right = parse_redir(tokens, left);
+	else if ((*tokens)->type == WORD)
+		right = parse_word(tokens, NULL);
 	if (!right)
 	{
 		ft_putstr_fd("minishell: invalid AST node\n", 2);
