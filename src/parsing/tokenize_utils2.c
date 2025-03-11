@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:11:08 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/09 23:30:14 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:07:40 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	count_args(t_token *tokens)
 	int	count;
 
 	count = 0;
-	
 	while (tokens && !is_operator(tokens->value))
 	{
 		if (tokens->type == WORD)
@@ -28,23 +27,6 @@ int	count_args(t_token *tokens)
 	}
 	return (count);
 }
-
-int	is_command(char *word)
-{
-	int	i;
-
-	i = 0;
-	while (valid_commands[i] != NULL)
-	{
-		if (strcmp(word, valid_commands[i]) == 0)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 
 t_ast	*init_args(t_ast *cmd_node, char *arg)
 {

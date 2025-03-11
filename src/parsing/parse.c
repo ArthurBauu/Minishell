@@ -6,12 +6,11 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 20:05:35 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:57:06 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
 
 t_ast	*parse_redir(t_token **tokens, t_ast *node)
 {

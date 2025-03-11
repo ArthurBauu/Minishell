@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:23 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/10 15:51:30 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:58:32 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	print_tokens(t_token *tokens)
 
 int	is_operator(char *word)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (valid_operator[i] != NULL)

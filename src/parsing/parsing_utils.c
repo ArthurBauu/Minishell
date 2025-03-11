@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:33:15 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 20:25:13 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:05:45 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,29 @@ void	print_errors(int i)
 		ft_putstr_fd("minishell: missing command after logical operator\n", 2);
 	if (i == 2)
 		ft_putstr_fd("minishell: invalid AST node\n", 2);
+	if (i == 3)
+		ft_putstr_fd("minishell: syntax error near unexpected token '<<'\n", 2);
+	if (i == 4)
+		ft_putstr_fd("minishell: syntax error near unexpected token '<'\n", 2);
+	if (i == 5)
+		ft_putstr_fd("minishell: syntax error near unexpected token '>>'\n", 2);
+	if (i == 6)
+		ft_putstr_fd("minishell: syntax error near unexpected token '>'\n", 2);
 }
 
-
-int check_error(t_token **tokens)
+int	check_error(t_token **tokens)
 {
 	if ((*tokens)->type == 1 || (*tokens)->type == 6 || (*tokens)->type == 7)
 	{
 		if ((*tokens)->type == 1)
-		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token '|'\n",
+				2);
 		if ((*tokens)->type == 6)
-		ft_putstr_fd("minishell: syntax error near unexpected token '&&'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token '&&'\n",
+				2);
 		if ((*tokens)->type == 7)
-		ft_putstr_fd("minishell: syntax error near unexpected token '||'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token '||'\n",
+				2);
 		return (-1);
 	}
 	return (1);

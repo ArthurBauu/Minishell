@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 20:10:43 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:56:46 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_ast	*parse_command(t_token **tokens)
 {
 	char	**args;
 	int		i;
-	t_ast *new_redir;
-	t_ast *cmd_node;
+	t_ast	*new_redir;
+	t_ast	*cmd_node;
 
 	i = 0;
 	if (!tokens || !(*tokens))
@@ -45,10 +45,8 @@ t_ast	*parse_command(t_token **tokens)
 			free_ast(cmd_node);
 		cmd_node = new_redir;
 	}
-	return (cmd_node);	
+	return (cmd_node);
 }
-
-
 
 t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 {
@@ -63,7 +61,8 @@ t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 	else
 		return (NULL);
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || ((*tokens)->type != WORD && is_redirection((*tokens), 0) != 1))
+	if (!(*tokens) || ((*tokens)->type != WORD && is_redirection((*tokens),
+				0) != 1))
 		return (print_errors(1), free_ast(left), NULL);
 	if (is_redirection((*tokens), 0))
 		right = parse_redir(tokens, left);

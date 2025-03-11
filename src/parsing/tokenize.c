@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:32:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/10 17:12:34 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:01:04 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_token	*tokenize(char *input)
 		{
 			i = handle_redirection_in(input, i, &tokens);
 			if (i == -1)
-				return (free_tokens(tokens),NULL);
+				return (free_tokens(tokens), NULL);
 		}
 		else if (input[i] == '"')
 			i = handle_double_quote(input, i, &tokens);

@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:11:27 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/09 23:43:01 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:00:45 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ int	is_redirection(t_token *token, int n)
 		|| token->type == REDIR_APPEND || token->type == HEREDOC)
 	{
 		if (n == 1 && (token->type == REDIR_OUT || token->type == REDIR_IN))
-		{
-			ft_putstr_fd("TEST minishell: syntax error near unexpected token '", 2);
-			ft_putstr_fd(token->value, 2);
-			ft_putstr_fd("'\n", 2);
-		}
+			ft_printf_error(2,
+				"TEST minishell: syntax error near unexpected token '%s'\n",
+				token->value);
 		else if (n == 1 && token->type == REDIR_APPEND)
 			ft_putstr_fd("minishell: syntax error near unexpected token '>>'\n",
 				2);
