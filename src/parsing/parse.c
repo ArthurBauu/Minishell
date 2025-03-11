@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 14:56:52 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 20:05:35 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_ast	*parse_pipe(t_token **tokens, t_ast *left)
 	*tokens = (*tokens)->next;
 	if (*tokens && is_redirection((*tokens), 0))
 	{
-		printf("test123\n");
 		redir = parse_redir(tokens, redir);
 		if (!redir)
 			return (free_ast(left), free_ast(right), NULL);
@@ -61,7 +60,6 @@ t_ast	*parse_pipe(t_token **tokens, t_ast *left)
 	}
 	if (*tokens && (*tokens)->type == WORD)
 	{
-		printf("test123\n");
 		right = parse_command(tokens);
 		if (redir)
 		{
@@ -109,7 +107,6 @@ t_ast	*parse(t_token **tokens)
 	t_ast	*left;
 
 	left = NULL;
-	
 	if (check_error(tokens) == -1)
 		return (NULL);
 	while (*tokens)

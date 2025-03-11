@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize3.c                                        :+:      :+:    :+:   */
+/*   expand_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 13:00:06 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/07 20:35:20 by md-harco         ###   ########.fr       */
+/*   Created: 2025/03/10 14:43:24 by md-harco          #+#    #+#             */
+/*   Updated: 2025/03/11 16:51:27 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "exec.h"
 
-static char	*expand_exit_status(char *result)
+static char	*expand_exit_status(char *result, int *i)
 {
-	char *exit_status;
+	char	*exit_status;
 
 	exit_status = ft_itoa(g_last_exit_code);
 	if (!exit_status)
 		return (NULL);
 	result = ft_strjoin_free(result, exit_status);
 	free(exit_status);
+	(*i)++;
 	return (result);
 }
 
-static char *expend_env_var(char *word, int *i, char *result)
+static char	*expand_env_var(t_shell *shell, char *word, char *result, int *i)
 {
-	int start;
-	char *var_name;
-	char *var_value;
+	int		start;
+	char	*var_name;
+	char	*var_value;
 
 	start = *i;
 	while (ft_isalnum(word[*i]) || word[*i] == '_')
@@ -36,43 +37,62 @@ static char *expend_env_var(char *word, int *i, char *result)
 	var_name = ft_substr(word, start, *i - start);
 	if (!var_name)
 		return (NULL);
-	var_value = getenv(var_name);
+	var_value = ft_getenv(shell, var_name);
 	if (var_value)
-	{
 		result = ft_strjoin_free(result, var_value);
-		if (!result)
-			return (NULL);
-	}
-	free(var_name);
+	if (var_name)
+		free(var_name);
+	if (var_value)
+		free(var_value);
 	return (result);
 }
 
-char *expand_variable(char *word)
-{
-	char *result;
-	int i;
+/* cas $12334 */
 
+static char	*expand_variable(char *word, t_shell *shell)
+{
+	char	*result;
+	int		i;
+
+	i = 0;
 	result = ft_strdup("");
 	if (!result)
-		return (NULL);
-	i = 0;
+		perror_exit("malloc", shell);
 	while (word[i])
 	{
 		if (word[i] == '$')
 		{
 			i++;
 			if (word[i] == '?')
-			{
-				result = expand_exit_status(result);
-				i++;
-			}
+				result = expand_exit_status(result, &i);
 			else if (ft_isalpha(word[i]) || word[i] == '_')
-				result = expend_env_var(word, &i, result);
+				result = expand_env_var(shell, word, result, &i);
 			else
 				result = ft_strjoin_char(result, '$');
 		}
-		else 
+		else
 			result = ft_strjoin_char(result, word[i++]);
 	}
-	return (result);
+	return (free(word), result);
+}
+
+void	expand_node(t_ast *node, t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	if (node->type == NODE_COMMAND)
+	{
+		while (node->value[i])
+		{
+			if (ft_strchr(node->value[i], '$'))
+				node->value[i] = expand_variable(node->value[i], shell);
+			i++;
+		}
+	}
+	else if (node->type >= NODE_REDIR_OUT && node->type <= NODE_HEREDOC)
+	{
+		if (ft_strchr(node->file, '$'))
+			node->file = expand_variable(node->file, shell);
+	}
 }

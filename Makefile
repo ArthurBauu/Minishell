@@ -58,7 +58,6 @@ SRC = main.c\
 		parsing/node_init.c\
 		parsing/tokenize.c\
 		parsing/tokenize2.c\
-		parsing/tokenize3.c\
 		parsing/tokenize_utils.c\
 		parsing/tokenize_utils2.c\
 		parsing/tokenize_utils3.c\
@@ -66,7 +65,27 @@ SRC = main.c\
 		parsing/parse.c\
 		parsing/parse_tokens.c\
 		parsing/commands.c\
-		parsing/free_struct.c
+		parsing/free_struct.c\
+		builtins/ft_cd.c\
+		builtins/ft_echo.c\
+		builtins/ft_env.c\
+		builtins/ft_exit.c\
+		builtins/ft_export.c\
+		builtins/ft_pwd.c\
+		builtins/ft_unset.c\
+		builtins/env_utils.c\
+		exec/exec.c\
+		exec/exec_commands.c\
+		exec/exec_pipes.c\
+		exec/handle_redir.c\
+		exec/get_path.c\
+		exec/files_utils.c\
+		exec/files_utils2.c\
+		utils/free_stuff.c\
+		utils/handle_errors.c\
+		utils/expand_vars.c\
+		utils/init_shell.c\
+		utils/handle_signals.c
 
 OBJ = $(SRC:.c=.o)
 SRC := $(addprefix $(SRCDIR)/, $(SRC))
@@ -78,7 +97,7 @@ LIBFT := $(LIBFT_DIR)/libft.a
 LIBFT_INCLUDE := $(LIBFT_DIR)#/include 		#Your header file in include dir ?
 # Libraries and Linker Flags
 LDFLAGS =  -L$(LIBFT_DIR)
-LIBS =  $(LIBFT)
+LIBS =  $(LIBFT) -lreadline
 
 # Archiver
 AR = ar
@@ -127,11 +146,11 @@ $(NAME): $(OBJ) $(LIBFT)
 # Libft
 $(LIBFT):
 	$(V)$(MAKE) --silent -C $(LIBFT_DIR)
-	$(V)echo '[$(NAME)] Libft build successfully'
+	$(V)echo '[$(NAME)] Libft successfully built'
 
 # Clean Rules
 clean:
-	$(V)echo $(RED)'[$(NAME)] Cleaning objects'd$(RESET)
+	$(V)echo $(RED)'[$(NAME)] Cleaning objects'$(RESET)
 	$(V)rm -rf $(OBJDIR)
 
 fclean: clean

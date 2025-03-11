@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:27:05 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/10 17:00:39 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:01:16 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int	handle_redirection_out(char *input, int i, t_token **tokens)
 		}
 		else
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token '>'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token '>>'\n", 2);
 			return (-1);
 		}
 	}
 	else
 	{
-		if (input[i + 1] == '\0')
+		if (input[i + 1] == '\0' || input[i + 1] == ' ')
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token '>'\n",
 				2);
@@ -84,12 +84,18 @@ int	handle_redirection_in(char *input, int i, t_token **tokens)
 		}
 		else
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token 'newline'\n", 2);
+			ft_putstr_fd("minishell:  syntax error near unexpected token '<<'\n", 2);
 			return (-1);
 		}
 	}
 	else
 	{
+		if (input[i + 1] == '\0' || input[i + 1] == ' ')
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token '<'\n",
+				2);
+			return (-1);
+		}
 		add_token(tokens, REDIR_IN, "<");
 		i++;
 	}

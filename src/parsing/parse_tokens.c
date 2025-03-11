@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 14:50:58 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/11 20:10:43 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,12 @@ t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 		return (NULL);
 	*tokens = (*tokens)->next;
 	if (!(*tokens) || ((*tokens)->type != WORD && is_redirection((*tokens), 0) != 1))
-	{
-		ft_putstr_fd("minishell: missing command after logical operator\n", 2);
-		return (free_ast(left), NULL);
-	}
+		return (print_errors(1), free_ast(left), NULL);
 	if (is_redirection((*tokens), 0))
 		right = parse_redir(tokens, left);
 	else if ((*tokens)->type == WORD)
 		right = parse_word(tokens, NULL);
 	if (!right)
-	{
-		ft_putstr_fd("minishell: invalid AST node\n", 2);
-		return (free_ast(left), NULL);
-	}
+		return (print_errors(2), free_ast(left), NULL);
 	return (create_operator_node(type, left, right));
 }
