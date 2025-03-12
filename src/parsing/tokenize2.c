@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:27:05 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/12 00:06:24 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:58:49 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	handle_redirection_out(char *input, int i, t_token **tokens)
 	}
 	else
 	{
-		if (input[i + 1] == '\0' || input[i + 1] == ' ')
+		if (input[i + 1] == '\0' || input[i + 1] != ' ')
 			return (print_errors(6), -1);
 		add_token(tokens, REDIR_OUT, ">");
 		i++;
@@ -78,7 +78,7 @@ int	handle_redirection_in(char *input, int i, t_token **tokens)
 	}
 	else
 	{
-		if (input[i + 1] == '\0' || input[i + 1] == ' ')
+		if (input[i + 1] == '\0' || input[i + 1] != ' ')
 			return (print_errors(4), -1);
 		add_token(tokens, REDIR_IN, "<");
 		i++;

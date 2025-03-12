@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:48:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 23:57:06 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:59:33 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,45 +34,6 @@ t_ast	*parse_redir(t_token **tokens, t_ast *node)
 			node->left = parse_word(tokens, node);
 	}
 	return (node);
-}
-
-t_ast	*parse_pipe(t_token **tokens, t_ast *left)
-{
-	t_ast	*right;
-	t_ast	*redir;
-
-	right = NULL;
-	redir = NULL;
-	if (!(*tokens)->next || ((*tokens)->next->type == PIPE
-			|| (*tokens)->next->type == OR || (*tokens)->next->type == AND))
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
-		return (free_ast(left), NULL);
-	}
-	*tokens = (*tokens)->next;
-	if (*tokens && is_redirection((*tokens), 0))
-	{
-		redir = parse_redir(tokens, redir);
-		if (!redir)
-			return (free_ast(left), free_ast(right), NULL);
-		return (create_operator_node(NODE_PIPE, left, redir));
-	}
-	if (*tokens && (*tokens)->type == WORD)
-	{
-		right = parse_command(tokens);
-		if (redir)
-		{
-			if (!redir->left)
-				redir->left = right;
-			right = redir;
-		}
-	}
-	if (!right)
-	{
-		ft_putstr_fd("minishell: syntax error after '|'\n", 2);
-		return (free_ast(left), free_ast(redir), NULL);
-	}
-	return (create_operator_node(NODE_PIPE, left, right));
 }
 
 t_ast	*parse_word(t_token **tokens, t_ast *left)
@@ -120,10 +81,7 @@ t_ast	*parse(t_token **tokens)
 		else if ((*tokens)->type == AND || (*tokens)->type == OR)
 			left = parse_logical_operator(tokens, left);
 		else
-		{
-			ft_putstr_fd("minishell: syntax error: invalid token\n", 2);
-			return (free_ast(left), NULL);
-		}
+			return (print_errors(7), free_ast(left), NULL);
 		if (!left)
 			return (NULL);
 	}

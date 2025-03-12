@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:00:06 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/07 20:35:20 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:32:51 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ char *expand_variable(char *word)
 	i = 0;
 	while (word[i])
 	{
-		if (word[i] == '$')
+		if (word[i++] == '$')
 		{
-			i++;
 			if (word[i] == '?')
 			{
 				result = expand_exit_status(result);

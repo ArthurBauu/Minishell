@@ -66,6 +66,7 @@ SRC = main.c\
 		parsing/parse_tokens.c\
 		parsing/commands.c\
 		parsing/free_struct.c\
+		parsing/parse_pipe.c\
 		builtins/ft_cd.c\
 		builtins/ft_echo.c\
 		builtins/ft_env.c\

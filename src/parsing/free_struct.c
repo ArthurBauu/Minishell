@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:53:33 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/11 23:56:31 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:26:13 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,5 @@ void	free_tokens(t_token *tokens)
 void	free_all(t_ast *ast, t_token *tokens)
 {
 	free_ast(ast);
-	// (void)tokens;
 	free_tokens(tokens);
 }
