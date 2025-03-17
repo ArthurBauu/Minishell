@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:00:06 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/12 00:32:51 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:41:44 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*expand_exit_status(char *result)
 {
-	char *exit_status;
+	char	*exit_status;
 
 	exit_status = ft_itoa(g_last_exit_code);
 	if (!exit_status)
@@ -24,11 +24,11 @@ static char	*expand_exit_status(char *result)
 	return (result);
 }
 
-static char *expend_env_var(char *word, int *i, char *result)
+static char	*expend_env_var(char *word, int *i, char *result)
 {
-	int start;
-	char *var_name;
-	char *var_value;
+	int		start;
+	char	*var_name;
+	char	*var_value;
 
 	start = *i;
 	while (ft_isalnum(word[*i]) || word[*i] == '_')
@@ -47,10 +47,10 @@ static char *expend_env_var(char *word, int *i, char *result)
 	return (result);
 }
 
-char *expand_variable(char *word)
+char	*expand_variable(char *word)
 {
-	char *result;
-	int i;
+	char	*result;
+	int		i;
 
 	result = ft_strdup("");
 	if (!result)
@@ -58,8 +58,9 @@ char *expand_variable(char *word)
 	i = 0;
 	while (word[i])
 	{
-		if (word[i++] == '$')
+		if (word[i] == '$')
 		{
+			i++;
 			if (word[i] == '?')
 			{
 				result = expand_exit_status(result);
@@ -70,7 +71,7 @@ char *expand_variable(char *word)
 			else
 				result = ft_strjoin_char(result, '$');
 		}
-		else 
+		else
 			result = ft_strjoin_char(result, word[i++]);
 	}
 	return (result);

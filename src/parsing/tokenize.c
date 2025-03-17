@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:32:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/12 00:37:19 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/14 20:32:01 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	handle_double_quote(char *input, int i, t_token **tokens)
 		free(word);
 		return (i + 1);
 	}
-	printf("Error : double quote not closed.\n");
+	ft_printf_error(2, "minishell: double quotes not closed\n");
 	return (i);
 }
 
@@ -75,7 +75,7 @@ int	handle_single_quote(char *input, int i, t_token **tokens)
 		free(word);
 		return (i + 1);
 	}
-	printf("Error : single quote not closed.\n");
+	ft_printf_error(2, "minishell: single quote not closed\n");
 	return (i);
 }
 
@@ -121,40 +121,3 @@ t_token	*tokenize(char *input)
 	}
 	return (tokens);
 }
-
-// t_token	*tokenize(char *input)
-// {
-// 	t_token *tokens = NULL;
-// 	int i = 0;
-
-// 	if (!input[i])
-// 		ft_putstr_fd("minishell: no command found\n", 2);
-// 	while (input[i])
-// 	{
-// 		if (input[i] == ' ')
-// 			i++;
-// 		else if (input[i] == '|')
-// 			i = handle_pipe(input, i, &tokens);
-// 		else if (input[i] == '>')
-// 		{
-// 			i = handle_redirection_out(input, i, &tokens);
-// 			if (i == -1)
-// 				return (free_tokens(tokens), NULL);
-// 		}
-// 		else if (input[i] == '<')
-// 		{
-// 			i = handle_redirection_in(input, i, &tokens);
-// 			if (i == -1)
-// 				return (free_tokens(tokens), NULL);
-// 		}
-// 		else if (input[i] == '"')
-// 			i = handle_double_quote(input, i, &tokens);
-// 		else if (input[i] == '\'')
-// 			i = handle_single_quote(input, i, &tokens);
-// 		else if (input[i] == '&' && input[i + 1] == '&')
-// 			i = handle_and(input, i, &tokens);
-// 		else
-// 			i = handle_word(input, i, &tokens);
-// 	}
-// 	return (tokens);
-// }

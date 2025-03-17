@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:44:35 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 20:37:43 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:30:47 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ extern int	g_last_exit_code;
 
 typedef enum e_token_type
 {
-	COMMAND,      /*  Commandes  */
-	ARGUMENT,     /*  Arguments  */
 	WORD,         /*  Commande ou argument*/
 	PIPE,         /*  '|'  */
 	REDIR_IN,     /*  '<'  */

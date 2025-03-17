@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:23 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/12 00:29:08 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:45:45 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	print_tokens(t_token *tokens)
 		tokens = tokens->next;
 	}
 }
-
 int	is_operator(char *word)
 {
 	int i;

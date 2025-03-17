@@ -6,11 +6,40 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/12 01:07:45 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:18:18 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+char	*ft_strdup_mini(const char *s)
+{
+	char	*str;
+	int		len;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	if (len + 1 != 0)
+	{
+		while (i < len && s[i])
+		{
+			if (s[i] != '\'' && s[i] != '"')
+			{
+				str[j] = s[i];
+				j++;
+			}
+			i++;
+		}
+		str[i] = '\0';
+	}
+	return (str);
+}
 
 char **get_arguments(t_token **tokens)
 {
@@ -22,7 +51,7 @@ char **get_arguments(t_token **tokens)
         return NULL;
     while (*tokens && ((*tokens)->type == WORD))
     {
-        args[i++] = ft_strdup((*tokens)->value);
+        args[i++] = ft_strdup_mini((*tokens)->value);
         if (!args[i-1])
         {
             ft_free(args, i);
@@ -56,7 +85,7 @@ t_ast *parse_command(t_token **tokens)
 {
     char **args;
     t_ast *cmd_node = NULL;
-
+    
     if (!tokens || !(*tokens))
         return NULL;
     args = get_arguments(tokens);
@@ -68,7 +97,6 @@ t_ast *parse_command(t_token **tokens)
         ft_free(args, count_args(*tokens));
         return NULL;
     }
-    cmd_node = word_redir(tokens, cmd_node);
     return cmd_node;
 }
 
