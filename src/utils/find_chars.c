@@ -1,27 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_errors.c                                    :+:      :+:    :+:   */
+/*   find_chars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 17:58:34 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/13 12:32:46 by md-harco         ###   ########.fr       */
+/*   Created: 2025/03/13 16:42:49 by md-harco          #+#    #+#             */
+/*   Updated: 2025/03/13 16:46:38 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	perror_exit(char *msg, t_shell *shell)
+int	find_char(char *str, char c)
 {
-	ft_putstr_fd("minishell: ", 2);
-	perror(msg);
-	if (shell->pipe == false)
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		reset_shell(shell);
-		free_strtab(shell->env_tab);
-		clear_env(&shell->env);
-		clear_env(&shell->exp);
+		if (str[i] == c)
+			return (i);
+		i++;
 	}
-	exit(EXIT_FAILURE);
+	return (-1);
+}
+
+int	count_char(char *str, char c, int n)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i] && i < n)
+	{
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	return (n);
 }

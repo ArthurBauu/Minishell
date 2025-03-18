@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:34:22 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/12 00:58:44 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:18:10 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 		{
+			kill(-1, 0);
 			printf("exit\n");
 			exit(g_last_exit_code);
 		}

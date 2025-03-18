@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:00:37 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 18:49:13 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:21:11 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ int	ft_pwd(char **args)
 {
 	char	cwd[4096];
 
-	if (args[1])
-	{
-		ft_putstr_fd("minishell: pwd: too many arguments\n", 2);
-		return (EXIT_FAILURE);
-	}
+	(void) args;
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("minishell: pwd");

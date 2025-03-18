@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:33:36 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 13:44:39 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:32:39 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int	ft_exit(char **args, t_shell *shell)
 	}
 	ft_printf("exit\n");
 	reset_shell(shell);
-	free_strtab(shell->envp);
+	clear_env(&shell->env);
+	clear_env(&shell->exp);
+	free_strtab(shell->env_tab);
 	rl_clear_history();
 	exit(status);
 }

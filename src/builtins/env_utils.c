@@ -3,84 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:59:06 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 18:43:14 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:48:37 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-char	**dup_env(char **env)
+t_env	*dup_env(char **envp, t_shell *shell)
 {
-	char	**copy;
-	int		count;
+	t_env	*copy;
 	int		i;
 
-	count = 0;
 	i = 0;
-	while (env[count])
-		count++;
-	copy = malloc(sizeof(char *) * (count + 1));
-	while (i < count)
+	copy = NULL;
+	if (!envp || !envp[0])
+		return (NULL);
+	while (envp[i])
 	{
-		copy[i] = ft_strdup(env[i]);
+		ft_env_add_back(&copy,
+			ft_env_new(ft_strndup(envp[i], find_char(envp[i], '=')),
+			ft_strdup(envp[i] + find_char(envp[i], '=') + 1), shell));
 		i++;
 	}
-	copy[i] = NULL;
 	return (copy);
 }
 
 bool	is_var(t_shell *shell, char *name)
 {
-	int		i;
-	char	*temp;
-	int		len;
+	t_env	*current;
 
-	i = 0;
-	temp = ft_strjoin(name, "=");
-	len = ft_strlen(temp);
-	while (shell->envp[i])
+	current = shell->env;
+	while (current)
 	{
-		if (ft_strncmp(temp, shell->envp[i], len) == 0)
-		{
-			free(temp);
+		if (ft_strcmp(name, current->name) == 0)
 			return (true);
-		}
-		i++;
+		current = current->next;
 	}
-	free(temp);
 	return (false);
 }
 
 void	update_var(t_shell *shell, char *name, char *value)
 {
-	int		i;
-	char	*temp;
+	t_env	*current_env;
+	t_env	*current_exp;
 
-	i = 0;
-	temp = ft_strjoin(name, "=");
-	while (ft_strncmp(temp, shell->envp[i], ft_strlen(temp)) != 0)
-		i++;
-	free(shell->envp[i]);
-	shell->envp[i] = ft_strjoin(temp, value);
-	free(temp);
+	current_env = shell->env;
+	current_exp = shell->exp;
+	if (value)
+	{
+		while (ft_strcmp(name, current_env->name) != 0)
+			current_env = current_env->next;
+		free(current_env->value);
+		current_env->value = ft_strdup(value);
+	}
+	while (ft_strcmp(name, current_exp->name) != 0)
+		current_exp = current_exp->next;
+	free(current_exp->value);
+	if (value)
+		current_exp->value = ft_strdup(value);
+	
 }
 
 char	*ft_getenv(t_shell *shell, char *name)
 {
-	int		i;
-	char	*value;
-	char	*temp;
+	t_env	*current;
 
-	i = 0;
+	current = shell->env;
 	if (!is_var(shell, name))
 		return (NULL);
-	temp = ft_strjoin(name, "=");
-	while (ft_strncmp(shell->envp[i], temp, ft_strlen(temp)) != 0)
-		i++;
-	value = ft_strdup(shell->envp[i] + ft_strlen(temp));
-	free(temp);
-	return (value);
+	while (ft_strcmp(current->name, name) != 0)
+		current = current->next;
+	return (current->value);
+}
+
+void	print_env(t_env *env)
+{
+	t_env	*current;
+
+	current = env;
+	while (current)
+	{
+		ft_printf("%s=%s\n", current->name, current->value);
+		current = current->next;
+	}
 }

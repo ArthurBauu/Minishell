@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:23 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/14 19:45:45 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:15:33 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_token	*create_token(t_token_type type, char *value)
+t_token	*create_token(t_token_type type, char *value, int is_quoted)
 {
 	t_token	*new_token;
 
@@ -21,17 +21,18 @@ t_token	*create_token(t_token_type type, char *value)
 		return (NULL);
 	new_token->type = type;
 	new_token->value = ft_strdup(value);
+	new_token->is_quoted = is_quoted;
 	new_token->next = NULL;
 	return (new_token);
 }
 
-t_token	*add_token(t_token **head, t_token_type type, char *value)
+t_token	*add_token(t_token **head, t_token_type type, char *value, int is_quoted)
 {
 	t_token	*new_token;
 	t_token	*temp;
 
 	new_token = NULL;
-	new_token = create_token(type, value);
+	new_token = create_token(type, value, is_quoted);
 	if (!new_token)
 		return (NULL);
 	if (!*head)
@@ -52,10 +53,11 @@ void	print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf("Token: %-10s | Type: %d\n", tokens->value, tokens->type);
+		printf("Token: %-10s | Type: %d | is_quoted: %i\n", tokens->value, tokens->type, tokens->is_quoted);
 		tokens = tokens->next;
 	}
 }
+
 int	is_operator(char *word)
 {
 	int i;

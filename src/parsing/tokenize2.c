@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:27:05 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/14 20:19:37 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:13:32 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	handle_and(char *input, int i, t_token **tokens)
 {
 	(void)input;
-	add_token(tokens, AND, "&&");
+	add_token(tokens, AND, "&&", 0);
 	i += 2;
 	return (i);
 }
@@ -23,7 +23,7 @@ int	handle_and(char *input, int i, t_token **tokens)
 int	handle_or(char *input, int i, t_token **tokens)
 {
 	(void)input;
-	add_token(tokens, OR, "||");
+	add_token(tokens, OR, "||", 0);
 	i += 2;
 	return (i);
 }
@@ -32,12 +32,12 @@ int	handle_pipe(char *input, int i, t_token **tokens)
 {
 	if (input[i] == '|' && input[i + 1] == '|')
 	{
-		add_token(tokens, OR, "||");
+		add_token(tokens, OR, "||", 0);
 		i += 2;
 		return (i);
 	}
 	else
-		add_token(tokens, PIPE, "|");
+		add_token(tokens, PIPE, "|", 0);
 	i++;
 	return (i);
 }
@@ -46,9 +46,9 @@ int    handle_redirection_out(char *input, int i, t_token **tokens)
 {
 	if (input[i + 1] == '>')
 	{
-		if (input[i + 2] != '|' && input[i + 2] != '\0')
+		if (input[i + 2] != '|')
 		{
-			add_token(tokens, REDIR_APPEND, ">>");
+			add_token(tokens, REDIR_APPEND, ">>", 0);
 			i += 2;
 		}
 		else
@@ -59,7 +59,7 @@ int    handle_redirection_out(char *input, int i, t_token **tokens)
 		if (input[i + 1] == '\0' || input[i + 1] == '|'
 			|| input[i + 1] == '&')
 			return (print_errors(6), -1);
-		add_token(tokens, REDIR_OUT, ">");
+		add_token(tokens, REDIR_OUT, ">", 0);
 		i++;
 	}
 	return (i);
@@ -69,9 +69,9 @@ int    handle_redirection_in(char *input, int i, t_token **tokens)
 {
 	if (input[i + 1] == '<')
 	{
-		if (input[i + 2] != '|' && input[i + 2] != '\0')
+		if (input[i + 2] != '|')
 		{
-			add_token(tokens, HEREDOC, "<<");
+			add_token(tokens, HEREDOC, "<<", 0);
 			i += 2;
 		}
 		else
@@ -82,7 +82,7 @@ int    handle_redirection_in(char *input, int i, t_token **tokens)
 		if (input[i + 1] == '\0' || input[i + 1] == '|'
 			|| input[i + 1] == '&')
 			return (print_errors(4), -1);
-		add_token(tokens, REDIR_IN, "<");
+		add_token(tokens, REDIR_IN, "<", 0);
 		i++;
 	}
 	return (i);

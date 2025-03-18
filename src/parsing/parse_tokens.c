@@ -6,40 +6,11 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/14 19:18:18 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:11:56 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-char	*ft_strdup_mini(const char *s)
-{
-	char	*str;
-	int		len;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	len = ft_strlen(s);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	if (len + 1 != 0)
-	{
-		while (i < len && s[i])
-		{
-			if (s[i] != '\'' && s[i] != '"')
-			{
-				str[j] = s[i];
-				j++;
-			}
-			i++;
-		}
-		str[i] = '\0';
-	}
-	return (str);
-}
 
 char **get_arguments(t_token **tokens)
 {
@@ -51,7 +22,7 @@ char **get_arguments(t_token **tokens)
         return NULL;
     while (*tokens && ((*tokens)->type == WORD))
     {
-        args[i++] = ft_strdup_mini((*tokens)->value);
+        args[i++] = ft_strdup((*tokens)->value);
         if (!args[i-1])
         {
             ft_free(args, i);
@@ -65,27 +36,27 @@ char **get_arguments(t_token **tokens)
 
 t_ast *word_redir(t_token **tokens, t_ast *cmd_node)
 {
-    t_ast *new_redir;
+	t_ast	*new_redir;
 
-    while (*tokens && is_redirection(*tokens, 0))
-    {
-        new_redir = parse_redir(tokens, NULL);
-        if (!new_redir)
-            return (free_ast(cmd_node), NULL);
-        if (!new_redir->left)
-            new_redir->left = cmd_node;
-        else
-            free_ast(cmd_node);
-        cmd_node = new_redir;
-    }
-    return cmd_node;
+	while (*tokens && is_redirection(*tokens, 0))
+	{
+		new_redir = parse_redir(tokens, NULL);
+		if (!new_redir)
+			return (free_ast(cmd_node), NULL);
+		if (!new_redir->left)
+			new_redir->left = cmd_node;
+		else
+			free_ast(cmd_node);
+		cmd_node = new_redir;
+	}
+	return cmd_node;
 }
 
 t_ast *parse_command(t_token **tokens)
 {
     char **args;
     t_ast *cmd_node = NULL;
-    
+
     if (!tokens || !(*tokens))
         return NULL;
     args = get_arguments(tokens);
@@ -99,7 +70,6 @@ t_ast *parse_command(t_token **tokens)
     }
     return cmd_node;
 }
-
 
 t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)
 {

@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:49:21 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 19:38:33 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:42:06 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,21 @@ void	exec_ext_command(char *cmd, char **args, t_shell *shell)
 
 	dup_files(shell->fd_in, shell->fd_out);
 	if (access(cmd, X_OK) == 0)
-		execve(cmd, args, shell->envp);
+		execve(cmd, args, shell->env_tab);
 	else
 	{
-		path = get_path(cmd, shell->envp);
+		path = get_path(cmd, shell->env_tab);
 		if (!path)
 		{
 			ft_printf_error(2, "minishell: %s: command not found\n", cmd);
 			reset_shell(shell);
+			clear_env(&shell->env);
+			clear_env(&shell->exp);
+			free_strtab(shell->env_tab);
+			rl_clear_history();
 			exit(127);
 		}
-		if (execve(path, args, shell->envp) == -1)
+		if (execve(path, args, shell->env_tab) == -1)
 			perror_exit("execve", shell);
 	}
 }
@@ -107,15 +111,19 @@ int	execute_command(t_ast *node, t_shell *shell)
 	if (is_builtin(node->value[0]))
 		return (execute_builtin(node->value[0], node->value, shell));
 	if (access(node->value[0], X_OK) == 0)
-		execve(node->value[0], node->value, shell->envp);
-	path = get_path(node->value[0], shell->envp);
+		execve(node->value[0], node->value, shell->env_tab);
+	path = get_path(node->value[0], shell->env_tab);
 	if (!path)
 	{
 		ft_printf_error(2, "minishell: %s: command not found\n", node->value[0]);
 		reset_shell(shell);
+		clear_env(&shell->env);
+		clear_env(&shell->exp);
+		free_strtab(shell->env_tab);
+		rl_clear_history();
 		exit(127);
 	}
-	if (execve(path, node->value, shell->envp) == -1)
+	if (execve(path, node->value, shell->env_tab) == -1)
 		perror_exit("execve", shell);
 	return (127);
 }

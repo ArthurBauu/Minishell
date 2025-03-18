@@ -75,6 +75,7 @@ SRC = main.c\
 		builtins/ft_pwd.c\
 		builtins/ft_unset.c\
 		builtins/env_utils.c\
+		builtins/env_utils2.c\
 		exec/exec.c\
 		exec/exec_commands.c\
 		exec/exec_pipes.c\
@@ -85,6 +86,7 @@ SRC = main.c\
 		utils/free_stuff.c\
 		utils/handle_errors.c\
 		utils/expand_vars.c\
+		utils/find_chars.c\
 		utils/init_shell.c\
 		utils/handle_signals.c
 

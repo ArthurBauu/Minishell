@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:43:24 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 16:51:27 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:26:17 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,10 @@ static char	*expand_env_var(t_shell *shell, char *word, char *result, int *i)
 	var_value = ft_getenv(shell, var_name);
 	if (var_value)
 		result = ft_strjoin_free(result, var_value);
-	if (var_name)
-		free(var_name);
-	if (var_value)
-		free(var_value);
 	return (result);
 }
 
-/* cas $12334 */
+/* cas $12334 a gerer? */
 
 static char	*expand_variable(char *word, t_shell *shell)
 {
@@ -79,20 +75,23 @@ static char	*expand_variable(char *word, t_shell *shell)
 void	expand_node(t_ast *node, t_shell *shell)
 {
 	int	i;
+	int	i_dollar;
 
 	i = 0;
 	if (node->type == NODE_COMMAND)
 	{
 		while (node->value[i])
 		{
-			if (ft_strchr(node->value[i], '$'))
+			i_dollar = find_char(node->value[i], '$');
+			if (i_dollar != -1 && node->value_quoted[i] == 0)
 				node->value[i] = expand_variable(node->value[i], shell);
 			i++;
 		}
 	}
 	else if (node->type >= NODE_REDIR_OUT && node->type <= NODE_HEREDOC)
 	{
-		if (ft_strchr(node->file, '$'))
+		i_dollar = find_char(node->file, '$');
+		if (i_dollar != -1 && node->file_quoted == 0)
 			node->file = expand_variable(node->file, shell);
 	}
 }

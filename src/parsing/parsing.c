@@ -6,13 +6,13 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:37:13 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/14 20:24:58 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:58:42 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int check_quotes(char *input)
+/* int check_quotes(char *input)
 {
 	int	i;
 	int	s;
@@ -37,7 +37,7 @@ int check_quotes(char *input)
 		return (ft_printf_error(2, "minishell: double quote not closed\n",
 			1));
 	return (0);
-}
+} */
 
 int	check_input(char *input)
 {
@@ -59,12 +59,13 @@ int	check_input(char *input)
 
 void	parsing(char *input, t_shell *shell)
 {
-	if (!check_input(input) && !check_quotes(input))
+	if (!check_input(input))
 		shell->tokens = tokenize(input);
 	if (shell->tokens)
 	{
 		shell->tokens_copy = shell->tokens;
 		shell->root = parse(&shell->tokens);
+		print_tokens(shell->tokens_copy);
 		print_ast(shell->root, 0);
 	}
 }
