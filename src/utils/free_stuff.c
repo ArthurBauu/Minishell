@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:58:06 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/18 18:03:27 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:59:02 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	reset_shell(t_shell *shell)
 {
 	if (shell->root)
 		free_all(shell->root, shell->tokens_copy);
-	printf("exit\n");
 	if (shell->fd_in != STDIN_FILENO)
 	{
 		close(shell->fd_in);

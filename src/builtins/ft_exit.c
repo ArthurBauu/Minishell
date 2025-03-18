@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:33:36 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/13 12:32:39 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:58:58 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	ft_exit(char **args, t_shell *shell)
 		if (temp >= 0 && temp <= 255)
 			status = temp;
 	}
-	ft_printf("exit\n");
 	reset_shell(shell);
 	clear_env(&shell->env);
 	clear_env(&shell->exp);
