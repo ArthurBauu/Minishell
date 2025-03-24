@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:52:42 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/18 17:15:27 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:09:21 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PARSING_H
 
 # include "global.h"
-# include "commands.h"
 # include "libft.h"
 # include <stdio.h>
 
@@ -42,11 +41,11 @@ void				free_tokens(t_token *tokens);
 void				free_ast(t_ast *ast);
 
 /*  NODES  */
-t_ast	*create_command_node(char **args);
+t_ast				*create_command_node(t_token **tokens, t_ast *node);
 t_ast				*create_operator_node(t_ast_type type, t_ast *left,
 						t_ast *right);
 t_ast				*init_ast(t_ast *node);
-char **get_arguments(t_token **tokens);
+void				get_arguments(t_token **tokens, t_ast *node);
 
 
 /*  UTILS  */
@@ -59,7 +58,6 @@ const char			*get_ast_type_str(t_ast_type type);
 const char			*get_token_type_str(t_token_type type);
 int					count_args(t_token *tokens);
 int					is_operator(char *word);
-void				classify_tokens(t_token *tokens);
 t_ast				*add_argument_to_command(t_ast *cmd_node, char *arg);
 t_ast_type			get_redir_type(t_token *token);
 void				free_all(t_ast *ast, t_token *tokens);

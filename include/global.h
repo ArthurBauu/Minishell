@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:44:35 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/18 15:17:26 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/22 18:37:44 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <stdbool.h>
 # include <dirent.h>
 # include <limits.h>
@@ -30,25 +31,25 @@ extern int	g_last_exit_code;
 
 typedef enum e_token_type
 {
-	WORD,         /*  Commande ou argument*/
-	PIPE,         /*  '|'  */
-	REDIR_IN,     /*  '<'  */
-	REDIR_OUT,    /*  '>'  */
-	REDIR_APPEND, /*  '>>'  */
-	HEREDOC,      /*  '<<'  */
-	AND,          /*  '&&'  */
-	OR,           /*  '||'  */
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	HEREDOC,
+	AND,
+	OR,
 }					t_token_type;
 
 typedef struct s_token
 {
-	t_token_type	type; /*  Type du token (PIPE, WORD, REDIR, etc.)  */
-	char			*value;       /*  Valeur du token ("ls", ">", "file.txt", etc.)  */
+	t_token_type	type;
+	char			*value;
 	int				is_quoted;
 	struct s_token	*next;
 }					t_token;
 
-typedef enum
+typedef enum e_ast_type
 {
 	NODE_COMMAND,
 	NODE_PIPE,
@@ -86,7 +87,7 @@ typedef struct s_shell
 	t_env	*exp;
 	char	*input;
 	t_token	*tokens;
-	t_token *tokens_copy;
+	t_token	*tokens_copy;
 	t_ast	*root;
 	int		fd_in;
 	int		fd_out;

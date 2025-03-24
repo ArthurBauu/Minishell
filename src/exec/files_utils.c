@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:40:55 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 15:39:51 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:18:21 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 void	change_fd_in(t_shell *shell, int fd)
 {
-	if (shell->fd_in != STDIN_FILENO)
+	if (shell->fd_in != STDIN_FILENO && shell->fd_in != -1)
 		close(shell->fd_in);
 	shell->fd_in = fd;
 }
 
 void	change_fd_out(t_shell *shell, int fd)
 {
-	if (shell->fd_out != STDOUT_FILENO)
+	if (shell->fd_out != STDOUT_FILENO && shell->fd_out != -1)
 		close(shell->fd_out);
 	shell->fd_out = fd;
 }
 
-int	check_infile(char *pathname, t_shell *shell)
+int	check_infile(char *pathname)
 {
 	int	fd;
 
 	fd = open(pathname, O_RDONLY);
 	if (fd == -1)
-		perror_exit(pathname, shell);
+		perror("minishell: ");
 	return (fd);
 }
 
-int	check_outfile(char *pathname, t_shell *shell)
+int	check_outfile(char *pathname)
 {
 	int	fd;
 
@@ -45,11 +45,11 @@ int	check_outfile(char *pathname, t_shell *shell)
 	else
 		fd = open(pathname, O_RDWR | O_TRUNC);
 	if (fd == -1)
-		perror_exit(pathname, shell);
+		perror("minishell: ");
 	return (fd);
 }
 
-int	check_outfile_app(char *pathname, t_shell *shell)
+int	check_outfile_app(char *pathname)
 {
 	int	fd;
 
@@ -58,6 +58,6 @@ int	check_outfile_app(char *pathname, t_shell *shell)
 	else
 		fd = open(pathname, O_RDWR | O_APPEND);
 	if (fd == -1)
-		perror_exit(pathname, shell);
+		perror("minishell: ");
 	return (fd);
 }

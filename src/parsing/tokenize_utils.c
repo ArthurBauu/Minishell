@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:23 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/18 15:15:33 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:08:41 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_token	*create_token(t_token_type type, char *value, int is_quoted)
 	return (new_token);
 }
 
-t_token	*add_token(t_token **head, t_token_type type, char *value, int is_quoted)
+t_token	*add_token(t_token **head, t_token_type type, char *value,
+		int is_quoted)
 {
 	t_token	*new_token;
 	t_token	*temp;
@@ -53,23 +54,23 @@ void	print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf("Token: %-10s | Type: %d | is_quoted: %i\n", tokens->value, tokens->type, tokens->is_quoted);
+		printf("Token: %-10s | Type: %d | is_quoted: %i\n", tokens->value,
+			tokens->type, tokens->is_quoted);
 		tokens = tokens->next;
 	}
 }
 
 int	is_operator(char *word)
 {
-	int i;
-
-	i = 0;
-	while (valid_operator[i] != NULL)
-	{
-		if (strcmp(word, valid_operator[i]) == 0)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
+    if (!word)
+        return (0);
+    if (ft_strcmp(word, "<") == 0 ||
+        ft_strcmp(word, "<<") == 0 ||
+        ft_strcmp(word, ">") == 0 ||
+        ft_strcmp(word, ">>") == 0 ||
+        ft_strcmp(word, "|") == 0 ||
+        ft_strcmp(word, "||") == 0 ||
+        ft_strcmp(word, "&&") == 0)
+        return (1);
+    return (0);
 }

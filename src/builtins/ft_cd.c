@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:59:49 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/13 13:01:06 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:32:08 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,13 @@ int	ft_cd(char **args, t_shell *shell)
 	else
 		path = ft_strdup(args[1]);
 	if (path && chdir(path) == -1)
-		return (free(path), perror("minishell: cd"), EXIT_FAILURE);
+		return (free(path), ft_printf_error(2, "minishell: cd: %s: ", args[1]),
+			perror(""), EXIT_FAILURE);
 	old_pwd = ft_getenv(shell, "PWD");
-	update_var(shell, "OLDPWD", old_pwd);
-	update_var(shell, "PWD", getcwd(cwd, sizeof(cwd)));
+	update_var(shell->env, "OLDPWD", old_pwd);
+	update_var(shell->env, "PWD", getcwd(cwd, sizeof(cwd)));
+	update_var(shell->exp, "OLDPWD", old_pwd);
+	update_var(shell->exp, "PWD", getcwd(cwd, sizeof(cwd)));
 	if (path)
 		free(path);
 	return (EXIT_SUCCESS);

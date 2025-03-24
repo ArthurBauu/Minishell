@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:01:27 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/18 16:16:29 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:38:53 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 
 static void	add_var_to_env(t_shell *shell, char *name, char *value)
 {
-	if (is_var(shell, name))
-		return (update_var(shell, name, value));
-	if (value)
-		ft_env_add_back(&shell->env, ft_env_new(name, value, shell));
-	ft_env_add_back(&shell->exp, ft_env_new(name, value, shell));
-	ft_sort_exp(shell->exp);
+	if (is_var(shell->env, name) && value && value[0])
+		update_var(shell->env, name, value);
+	else if (value)
+		env_add_back(&shell->env, env_new(name, value, shell));
+	if (is_var(shell->exp, name))
+		update_var(shell->exp, name, value);
+	else
+		env_add_back(&shell->exp, env_new(name, value, shell));
+	g_last_exit_code = EXIT_SUCCESS;
 }
 
 /* rule for var names : all char must be alphanum or '_' 
@@ -39,14 +42,16 @@ static int	check_var_name(char *name, char *arg)
 	{
 		ft_printf_error(2, "minishell: export: '%s': not a valid identifier\n",
 			arg);
+		g_last_exit_code = EXIT_FAILURE;
 		return (0);
 	}
 	while (name[i])
 	{
 		if (!ft_isalnum(name[i]) && name[i] != '_')
 		{
-			ft_printf_error(2, "minishell: export: '%s': not a valid identifier\n",
-				arg);
+			ft_printf_error(2, "minishell: export: '%s' ", arg);
+			ft_printf_error(2, "not a valid identifier\n");
+			g_last_exit_code = EXIT_FAILURE;
 			return (0);
 		}
 		i++;
@@ -62,13 +67,11 @@ int	ft_export(char **args, t_shell *shell)
 	int		i_equal;
 
 	i = 1;
-	if (shell->exp)
-		ft_sort_exp(shell->exp);
 	if (!args[1])
 		print_exp(shell->exp);
 	while (args[i])
 	{
-		if (ft_strchr(args[i], '='))
+		if (find_char(args[i], '=') != -1)
 		{
 			i_equal = find_char(args[i], '=');
 			name = ft_strndup(args[i], i_equal);
@@ -77,8 +80,8 @@ int	ft_export(char **args, t_shell *shell)
 				add_var_to_env(shell, name, value);
 		}
 		else if (check_var_name(args[i], args[i]))
-			ft_env_add_back(&shell->exp, ft_env_new(args[i], NULL, shell));
+			add_var_to_env(shell, ft_strdup(args[i]), NULL);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (g_last_exit_code);
 }

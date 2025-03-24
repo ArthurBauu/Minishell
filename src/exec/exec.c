@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:05:30 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/13 12:40:16 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:23:03 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	execute_ast(t_ast *node, t_shell *shell)
 	else if (node->type == NODE_AND)
 	{
 		if (execute_ast(node->left, shell) == 0)
-			return (execute_ast(node->right, shell));
+			return (reset_fd(shell), execute_ast(node->right, shell));
 	}
 	else if (node->type == NODE_OR)
 	{
 		if (execute_ast(node->left, shell) != 0)
-			return (execute_ast(node->right, shell));
+			return (reset_fd(shell), execute_ast(node->right, shell));
 	}
 	return (g_last_exit_code);
 }

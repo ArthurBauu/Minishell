@@ -6,13 +6,13 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:00:43 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/13 16:42:16 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/22 12:46:20 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-t_env	*ft_env_new(char *name, char *value, t_shell *shell)
+t_env	*env_new(char *name, char *value, t_shell *shell)
 {
 	t_env	*new;
 
@@ -25,7 +25,7 @@ t_env	*ft_env_new(char *name, char *value, t_shell *shell)
 	return (new);
 }
 
-void	ft_env_add_back(t_env **env, t_env *new)
+void	env_add_back(t_env **env, t_env *new)
 {
 	t_env	*last;
 
@@ -40,6 +40,7 @@ void	ft_env_add_back(t_env **env, t_env *new)
 			last = last->next;
 		last->next = new;
 	}
+	g_last_exit_code = EXIT_SUCCESS;
 }
 
 void	ft_sort_exp(t_env *exp)
@@ -49,6 +50,8 @@ void	ft_sort_exp(t_env *exp)
 	char	*temp;
 
 	current1 = exp;
+	if (!exp)
+		return ;
 	while (current1->next)
 	{
 		current2 = current1->next;
@@ -67,13 +70,14 @@ void	ft_sort_exp(t_env *exp)
 		}
 		current1 = current1->next;
 	}
-} 
+}
 
 void	print_exp(t_env *exp)
 {
 	t_env	*current;
 
 	current = exp;
+	ft_sort_exp(exp);
 	while (current)
 	{
 		if (current->value)
@@ -82,4 +86,18 @@ void	print_exp(t_env *exp)
 			ft_printf("export %s\n", current->name, current->value);
 		current = current->next;
 	}
+}
+
+int	find_char(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

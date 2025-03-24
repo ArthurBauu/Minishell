@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:33:15 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/13 13:22:46 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/23 23:54:47 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ void	print_errors(int i)
 	if (i == 4)
 		ft_putstr_fd("minishell: syntax error near unexpected token '<'\n", 2);
 	if (i == 5)
-		ft_putstr_fd("minishell: syntax error near unexpected token '>>'\n", 2);
+		ft_putstr_fd("minishell: TEST syntax error near unexpected token '>>'\n", 2);
 	if (i == 6)
 		ft_putstr_fd("minishell: syntax error near unexpected token '>'\n", 2);
 	if (i == 7)
 		ft_putstr_fd("minishell: syntax error invalid token\n", 2);
+	if (i == 8)
+		ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
 }
 
 int	check_error(t_token **tokens)

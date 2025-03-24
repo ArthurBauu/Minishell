@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:39:28 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 15:54:34 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:22:14 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ void	restore_std_fd(int saved_stdin, int saved_stdout, t_shell *shell)
 		close(saved_stdin);
 		close(saved_stdout);
 	}
+}
+
+void	reset_fd(t_shell *shell)
+{
+	change_fd_in(shell, STDIN_FILENO);
+	change_fd_out(shell, STDOUT_FILENO);
 }

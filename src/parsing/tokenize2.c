@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:27:05 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/18 15:13:32 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:41:27 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	handle_pipe(char *input, int i, t_token **tokens)
 	return (i);
 }
 
-int    handle_redirection_out(char *input, int i, t_token **tokens)
+int	handle_redirection_out(char *input, int i, t_token **tokens)
 {
 	if (input[i + 1] == '>')
 	{
@@ -52,12 +52,11 @@ int    handle_redirection_out(char *input, int i, t_token **tokens)
 			i += 2;
 		}
 		else
-		return (print_errors(5), -1);
+			return (print_errors(5), -1);
 	}
 	else
 	{
-		if (input[i + 1] == '\0' || input[i + 1] == '|'
-			|| input[i + 1] == '&')
+		if (input[i + 1] == '\0' || input[i + 1] == '|' || input[i + 1] == '&')
 			return (print_errors(6), -1);
 		add_token(tokens, REDIR_OUT, ">", 0);
 		i++;
@@ -65,7 +64,7 @@ int    handle_redirection_out(char *input, int i, t_token **tokens)
 	return (i);
 }
 
-int    handle_redirection_in(char *input, int i, t_token **tokens)
+int	handle_redirection_in(char *input, int i, t_token **tokens)
 {
 	if (input[i + 1] == '<')
 	{
@@ -79,8 +78,7 @@ int    handle_redirection_in(char *input, int i, t_token **tokens)
 	}
 	else
 	{
-		if (input[i + 1] == '\0' || input[i + 1] == '|'
-			|| input[i + 1] == '&')
+		if (input[i + 1] == '\0' || input[i + 1] == '|' || input[i + 1] == '&')
 			return (print_errors(4), -1);
 		add_token(tokens, REDIR_IN, "<", 0);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_stuff.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:58:06 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/18 18:59:02 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:22:28 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	free_strtab(char **strtab)
 void	reset_shell(t_shell *shell)
 {
 	if (shell->root)
+	{
 		free_all(shell->root, shell->tokens_copy);
+		shell->root = NULL;
+	}
 	if (shell->fd_in != STDIN_FILENO)
 	{
 		close(shell->fd_in);
@@ -52,4 +55,13 @@ void	clear_env(t_env **env)
 		free(*env);
 		*env = temp;
 	}
+}
+
+void	clear_all(t_shell *shell)
+{
+	reset_shell(shell);
+	clear_env(&shell->env);
+	clear_env(&shell->exp);
+	free_strtab(shell->env_tab);
+	rl_clear_history();
 }

@@ -6,69 +6,51 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 01:21:41 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/18 17:11:56 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/23 01:11:12 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char **get_arguments(t_token **tokens)
+void	get_arguments(t_token **tokens, t_ast *node)
 {
-    char **args;
-    int i = 0;
+	int	i;
 
-    args = malloc(sizeof(char *) * (count_args(*tokens) + 1));
-    if (!args)
-        return NULL;
-    while (*tokens && ((*tokens)->type == WORD))
-    {
-        args[i++] = ft_strdup((*tokens)->value);
-        if (!args[i-1])
-        {
-            ft_free(args, i);
-            return NULL;
-        }
-        *tokens = (*tokens)->next;
-    }
-    args[i] = NULL;
-    return args;
-}
-
-t_ast *word_redir(t_token **tokens, t_ast *cmd_node)
-{
-	t_ast	*new_redir;
-
-	while (*tokens && is_redirection(*tokens, 0))
+	i = 0;
+	node->value = malloc(sizeof(char *) * (count_args(*tokens) + 1));
+	if (!node->value)
+		return ;
+	node->value_quoted = malloc(sizeof(int) * count_args(*tokens));
+	if (!node->value_quoted)
+		return ;
+	while (*tokens && ((*tokens)->type == WORD))
 	{
-		new_redir = parse_redir(tokens, NULL);
-		if (!new_redir)
-			return (free_ast(cmd_node), NULL);
-		if (!new_redir->left)
-			new_redir->left = cmd_node;
-		else
-			free_ast(cmd_node);
-		cmd_node = new_redir;
+		node->value[i] = ft_strdup((*tokens)->value);
+		if (!node->value[i])
+		{
+			ft_free(node->value, i);
+			return ;
+		}
+		node->value_quoted[i] = (*tokens)->is_quoted;
+		*tokens = (*tokens)->next;
+		i++;
 	}
-	return cmd_node;
+	node->value[i] = NULL;
 }
 
-t_ast *parse_command(t_token **tokens)
+t_ast	*parse_command(t_token **tokens)
 {
-    char **args;
-    t_ast *cmd_node = NULL;
+	t_ast	*cmd_node;
 
-    if (!tokens || !(*tokens))
-        return NULL;
-    args = get_arguments(tokens);
-    if (!args)
-        return NULL;
-    cmd_node = create_command_node(args);
-    if (!cmd_node)
-    {
-        ft_free(args, count_args(*tokens));
-        return NULL;
-    }
-    return cmd_node;
+	cmd_node = NULL;
+	if (!tokens || !(*tokens))
+		return (NULL);
+	cmd_node = create_command_node(tokens, cmd_node);
+	if (!cmd_node)
+	{
+		return (NULL);
+	}
+	return (cmd_node);
 }
 
 t_ast	*parse_logical_operator(t_token **tokens, t_ast *left)

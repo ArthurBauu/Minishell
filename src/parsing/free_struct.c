@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:53:33 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/18 18:25:19 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:40:28 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ void	free_tab(char **tab)
 
 void	free_ast(t_ast *ast)
 {
-    if (!ast)
-        return ;
-    if (ast->value)
-        free_tab(ast->value);
-    if (ast->value_quoted)
-        free(ast->value_quoted);
-    if (ast->file)
-        free(ast->file);
-    if (ast->args)
-        free_tab(ast->args);
-    if (ast->left)
-        free_ast(ast->left);
-    if (ast->right)
-        free_ast(ast->right);
-    free(ast);
+	if (!ast)
+		return ;
+	if (ast->value)
+		free_tab(ast->value);
+	if (ast->value_quoted)
+		free(ast->value_quoted);
+	if (ast->file)
+		free(ast->file);
+	if (ast->args)
+		free_tab(ast->args);
+	if (ast->left)
+		free_ast(ast->left);
+	if (ast->right)
+		free_ast(ast->right);
+	free(ast);
 }
 
 void	free_tokens(t_token *tokens)
@@ -65,5 +65,7 @@ void	free_tokens(t_token *tokens)
 void	free_all(t_ast *ast, t_token *tokens)
 {
 	free_ast(ast);
+	ast = NULL;
 	free_tokens(tokens);
+	tokens = NULL;
 }

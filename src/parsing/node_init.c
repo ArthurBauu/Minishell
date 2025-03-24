@@ -6,16 +6,14 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:48:54 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/18 18:09:29 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/22 18:37:38 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_ast	*create_command_node(char **args)
+t_ast	*create_command_node(t_token **tokens, t_ast *node)
 {
-	t_ast	*node;
-
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
@@ -23,8 +21,7 @@ t_ast	*create_command_node(char **args)
 	node->left = NULL;
 	node->right = NULL;
 	node->file = NULL;
-	node->value_quoted = NULL;
-	node->value = args;
+	get_arguments(tokens, node);
 	node->args = NULL;
 	return (node);
 }

@@ -63,8 +63,8 @@ SRC = main.c\
 		parsing/tokenize_utils3.c\
 		parsing/for_test.c\
 		parsing/parse.c\
+		parsing/parse2.c\
 		parsing/parse_tokens.c\
-		parsing/commands.c\
 		parsing/free_struct.c\
 		parsing/parse_pipe.c\
 		builtins/ft_cd.c\
@@ -77,6 +77,7 @@ SRC = main.c\
 		builtins/env_utils.c\
 		builtins/env_utils2.c\
 		exec/exec.c\
+		exec/exec_builtins.c\
 		exec/exec_commands.c\
 		exec/exec_pipes.c\
 		exec/handle_redir.c\
@@ -85,8 +86,8 @@ SRC = main.c\
 		exec/files_utils2.c\
 		utils/free_stuff.c\
 		utils/handle_errors.c\
-		utils/expand_vars.c\
-		utils/find_chars.c\
+		utils/expand.c\
+		utils/expand2.c\
 		utils/init_shell.c\
 		utils/handle_signals.c
 

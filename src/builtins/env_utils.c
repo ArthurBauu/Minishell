@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:59:06 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/18 16:48:37 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:20:56 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ t_env	*dup_env(char **envp, t_shell *shell)
 		return (NULL);
 	while (envp[i])
 	{
-		ft_env_add_back(&copy,
-			ft_env_new(ft_strndup(envp[i], find_char(envp[i], '=')),
-			ft_strdup(envp[i] + find_char(envp[i], '=') + 1), shell));
+		env_add_back(&copy,
+			env_new(ft_strndup(envp[i], find_char(envp[i], '=')),
+				ft_strdup(envp[i] + find_char(envp[i], '=') + 1), shell));
 		i++;
 	}
 	return (copy);
 }
 
-bool	is_var(t_shell *shell, char *name)
+bool	is_var(t_env *env, char *name)
 {
 	t_env	*current;
 
-	current = shell->env;
+	current = env;
 	while (current)
 	{
 		if (ft_strcmp(name, current->name) == 0)
@@ -45,26 +45,15 @@ bool	is_var(t_shell *shell, char *name)
 	return (false);
 }
 
-void	update_var(t_shell *shell, char *name, char *value)
+void	update_var(t_env *env, char *name, char *value)
 {
 	t_env	*current_env;
-	t_env	*current_exp;
 
-	current_env = shell->env;
-	current_exp = shell->exp;
-	if (value)
-	{
-		while (ft_strcmp(name, current_env->name) != 0)
-			current_env = current_env->next;
-		free(current_env->value);
-		current_env->value = ft_strdup(value);
-	}
-	while (ft_strcmp(name, current_exp->name) != 0)
-		current_exp = current_exp->next;
-	free(current_exp->value);
-	if (value)
-		current_exp->value = ft_strdup(value);
-	
+	current_env = env;
+	while (ft_strcmp(name, current_env->name) != 0)
+		current_env = current_env->next;
+	free(current_env->value);
+	current_env->value = ft_strdup(value);
 }
 
 char	*ft_getenv(t_shell *shell, char *name)
@@ -72,7 +61,7 @@ char	*ft_getenv(t_shell *shell, char *name)
 	t_env	*current;
 
 	current = shell->env;
-	if (!is_var(shell, name))
+	if (!is_var(shell->env, name))
 		return (NULL);
 	while (ft_strcmp(current->name, name) != 0)
 		current = current->next;

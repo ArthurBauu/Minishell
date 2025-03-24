@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 20:03:16 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/11 19:38:38 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:56:36 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,5 @@ int	execute_pipe(t_ast *node, t_shell *shell)
 		create_child_process(cmd_node, shell, shell->cmd_count - 1 - i);
 		i++;
 	}
-	return (signal(SIGINT, &stop_sig), parent_process(shell));
+	return (parent_process(shell));
 }

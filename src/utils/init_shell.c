@@ -6,7 +6,7 @@
 /*   By: md-harco <md-harco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:19:23 by md-harco          #+#    #+#             */
-/*   Updated: 2025/03/18 16:14:00 by md-harco         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:56:17 by md-harco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static char	**dup_env_tab(char **env)
 
 void	initialize_shell(t_shell *shell, char **envp)
 {
-	signal(SIGINT, &handle_sigint);
-	signal(SIGQUIT, &handle_sigquit);
+	initialize_signals();
 	shell->input = NULL;
 	shell->tokens = NULL;
 	shell->tokens_copy = NULL;
