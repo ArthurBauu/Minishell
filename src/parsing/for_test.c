@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:55:03 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/22 18:52:35 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:29:54 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	print_ast(t_ast *node, int level)
 			printf("REDIRECTION_APPEND -> ");
 		else if (node->type == NODE_HEREDOC)
 			printf("HEREDOC -> ");
-
-		// Affiche le fichier de redirection
 		if (node->file)
 			printf("%s\n", node->file);
 		else
