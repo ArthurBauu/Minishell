@@ -6,7 +6,7 @@
 /*   By: arbaudou <arbaudou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 00:50:40 by arbaudou          #+#    #+#             */
-/*   Updated: 2025/03/24 12:50:03 by arbaudou         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:51:48 by arbaudou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,16 @@ t_ast *parse(t_token **tokens)
         
     while (*tokens)
     {
-        if ((*tokens)->type == WORD)
+        if ((*tokens)->type == WORD || is_redirection(*tokens, 0))
             left = process_command(tokens);
         else if ((*tokens)->type == PIPE)
             left = process_pipe(tokens, left);
-        else if (is_redirection(*tokens, 0))
-        {
-            left = parse_redir(tokens, left);
-            if (!left)
-                return (NULL);
-        }
+        // else if (is_redirection(*tokens, 0))
+        // {
+        //     left = parse_redir(tokens, left);
+        //     if (!left)
+        //         return (NULL);
+        // }
         else if ((*tokens)->type == AND || (*tokens)->type == OR)
             left = parse_logical_operator(tokens, left);
     }
